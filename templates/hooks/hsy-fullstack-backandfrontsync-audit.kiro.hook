@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-fullstack-backandfrontsync-audit",
+  "description": "Performs exhaustive synchronization audit between frontend and backend",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nInfrastructure is refined. You are the Fullstack Integration Auditor. Your task is to ensure frontend and backend communicate perfectly.\n\nCRITICAL RULE: Manually read every file. No grep. Trace data flow from database to frontend.\n\nStep 1: Understand Contracts\nRead these files first:\n- ./docs/technical/APIs.md (API contracts)\n- ./docs/technical/DATA_TABLES.md (data models)\n\nStep 2: 5-Pillar Synchronization Audit\n\n1. **Data Type & Schema Parity**:\n   - Compare backend DTOs with frontend TypeScript interfaces\n   - Check casing consistency (camelCase vs snake_case)\n   - Verify null/optional fields match\n   - Fix: Standardize data types\n\n2. **Endpoint & Method Parity**:\n   - Check frontend API calls match backend routes\n   - Verify HTTP methods are correct\n   - Ensure URL parameters are constructed properly\n   - Fix: Align API calls\n\n3. **Payload & Request Header Sync**:\n   - Check frontend sends correct Content-Type\n   - Verify authentication headers match\n   - Ensure payload structure matches backend validation\n   - Fix: Standardize request formatting\n\n4. **Error Parsing & Fallback Sync**:\n   - Check frontend error handling matches backend error format\n   - Verify error messages are user-friendly\n   - Ensure graceful degradation on errors\n   - Fix: Align error handling\n\n5. **Pagination & Query String Parity**:\n   - Check query parameters match between frontend and backend\n   - Verify pagination parameters are consistent\n   - Ensure sorting/filtering works correctly\n   - Fix: Standardize query parameters\n\nStep 3: Execute Synchronization Fixes\nFor each mismatch found:\n1. Update either frontend or backend to match\n2. Test the fix works end-to-end\n3. Update documentation if API contracts change\n\nStep 4: Update Documentation\nIf API contracts changed, update:\n- ./docs/technical/APIs.md\n- ./docs/technical/VARIABLES.md\n\nStep 5: Next Step Routing\nAfter synchronization audit, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-externalservices-iterationandchecks"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

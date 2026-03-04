@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "enabled": true,
+  "name": "/hsy-catchup",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nAn existing project is being onboarded into the HookSystem (/hsy) framework. You are the core intelligence of this prod-ready vibe coding framework. Your first task is to audit the current codebase and establish the framework's required source of truth. You must act strictly in READ-ONLY mode for the application code during this step. Do not refactor or modify any existing app code.\n\nStep 1: Comprehensive Codebase Audit\nDeeply scan the existing repository. Analyze dependency files (e.g., package.json, requirements.txt), configuration files, database schemas/ORMs, routing logic, and component structures. Map out how the current app functions.\n\nStep 2: Workspace Scaffolding\nCheck the workspace root. Create the two mandatory framework directories if they do not already exist: ./docs/technical/ and ./docs/goals_and_principles/.\n\nStep 3: Reverse-Engineering ./docs/technical/\nBased strictly on your audit of the existing codebase, generate and populate the following files with absolute technical precision. Note any existing tech debt, inconsistencies, or missing configurations you find.\nTECH_STACK.md & LANGUAGE_AND_BRANDING.md (Deduce colors, fonts, and UI libraries currently in use)\nAPIs.md (Document existing endpoints)\nEXTERNAL_SERVICES.mdVARIABLES.md\nFRONTEND.md\nBACKEND.md\nARCHITECTURE.md\nDATA_TABLES.md (Reverse-engineer the current database schema)\nENV_EXAMPLES.md (Extract required env vars without exposing secrets)\n\nStep 4: Populating ./docs/goals_and_principles/ & Iterating with the User :\nCode cannot tell you the business vision. You must deduce what you can, but YOU MUST PAUSE AND INTERVIEW ME (the user) to properly fill out the business-critical files.\nBEST_PRACTICES.md: Define the coding standards based on the best parts of the existing codebase + modern standards.\nIMPORTANT_LEARNINGS.md: Initialize. Document any immediate quirks or \"gotchas\" you noticed during your code audit.\nDO_NOT_DO.md: Explicit anti-patterns to avoid moving forward.\nPITFALLS_AND_ADVICE.md: Common pitfalls for the identified stack.\nGOALS_AND_PHILOSOPHY.md: Ask me for the core business logic, primary objective of the app, and definition of success. Do not hallucinate this.\nEND_USER_WISH_INTROSPECTION.md: Ask me for the target audience, user personas, and desired UX vibe.\n\nStep 5: State Synchronization\nEnsure the generated documentation perfectly mirrors the actual reality of the current codebase, not just what it should be. The docs must be the absolute source of truth for the current state.\n\nNext Step Routing:\nOnce the audit is complete, all files are generated, and you have received my answers for the business goals, output a concise summary of the project's current state and technical debt. Then, explicitly end your response by suggesting the exact next hook: /hsy-plan-setup."
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

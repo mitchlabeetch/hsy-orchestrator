@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-frontend-ui-checks-and-addtests",
+  "description": "Adds comprehensive tests for refined UI components and verifies functionality",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nUI refinements are complete. You are the Frontend QA Automation Expert. Your task is to verify the refined UI components are robust and add comprehensive tests.\n\nStep 1: Review Refinements\nAnalyze the changes made during UI refinement. Understand what was added or modified:\n- New interactive states (hover, focus, active)\n- Responsive design improvements\n- Accessibility enhancements\n- Design system consistency fixes\n\nStep 2: Determine Testing Framework\nCheck ./docs/technical/TECH_STACK.md and ./docs/technical/FRONTEND.md to identify:\n- The frontend testing framework in use (e.g., Jest, React Testing Library, Cypress)\n- Any existing testing patterns or conventions\n\nStep 3: Create Component Tests\nFor each refined component, create comprehensive tests:\n\n1. **Render Tests**:\n   - Test component renders without crashing\n   - Test with various prop combinations\n   - Test empty/null states\n\n2. **Interaction Tests**:\n   - Test click handlers and user interactions\n   - Test keyboard navigation\n   - Test form submissions and validation\n\n3. **Accessibility Tests** (if applicable):\n   - Test ARIA attributes are present\n   - Test keyboard navigation works\n   - Use tools like jest-axe if available\n\n4. **Responsive Tests**:\n   - Test component at different viewport sizes\n   - Verify responsive behavior works correctly\n\nStep 4: Write and Execute Tests\n1. Create test files for each refined component\n2. Write comprehensive test cases\n3. Run the test suite\n4. Fix any failing tests or implementation issues\n\nStep 5: Update Documentation\nUpdate ./docs/technical/FRONTEND.md with:\n- Testing strategy for UI components\n- How to write new component tests\n- Any testing patterns established\n\nStep 6: Next Step Routing\nAfter adding and verifying tests, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-frontend-routing-fullaudit"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-review-plan",
+  "description": "Reviews an implementation plan before starting execution",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nYou are the Plan Reviewer. Your task is to review an implementation plan before work begins.\n\nStep 1: Select Plan to Review\n1. Check ./docs/planning/ directory\n2. Look for plans with _nonstarted.md suffix\n3. Select the plan to review (usually the next in sequence)\n\nStep 2: Plan Structure Review\nCheck the plan follows the correct structure:\n- Proper header with phase number and name\n- Status checkboxes present\n- [PHASE_x_GOAL], [PHASE_x_SUCCESS_CRITERIA], [PHASE_x_IMPORTANT_NOTES] placeholders\n- Items with proper numbering and structure\n- All required placeholders present\n\nStep 3: Content Quality Review\nReview the plan content for:\n1. **Clarity**: Are goals and descriptions clear?\n2. **Feasibility**: Can the items be completed with available resources?\n3. **Dependencies**: Are there clear dependencies between items?\n4. **Scope**: Is the scope appropriate for a single phase?\n5. **Testability**: Can success criteria be tested?\n\nStep 4: Cross-Reference with Documentation\nCheck the plan aligns with:\n- ./docs/goals_and_principles/GOALS_AND_PHILOSOPHY.md\n- ./docs/technical/ARCHITECTURE.md\n- ./docs/technical/TECH_STACK.md\n\nStep 5: Provide Review Feedback\nCreate a review summary with:\n1. **Structure Issues**: Any missing or incorrect structure\n2. **Content Issues**: Problems with clarity, feasibility, or scope\n3. **Recommendations**: Suggestions for improvement\n4. **Approval Status**: Ready to start / Needs revision\n\nStep 6: Next Step Routing\nIf plan is approved, suggest: /hsy-start-next-plan\nIf plan needs revision, provide specific feedback and suggest revising the plan file."
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

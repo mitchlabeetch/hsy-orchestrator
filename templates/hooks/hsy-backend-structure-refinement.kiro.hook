@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-backend-structure-refinement",
+  "description": "Refines backend architecture for scalability, security, and maintainability",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nCore functionality is complete. You are the Lead Backend Architect. Your task is to elevate the backend to 'prod-ready' quality.\n\nStep 1: Understand Architecture\nRead these files:\n- ./docs/technical/BACKEND.md and ./docs/technical/ARCHITECTURE.md\n- ./docs/technical/DATA_TABLES.md\n- ./docs/goals_and_principles/BEST_PRACTICES.md\n- ./docs/technical/APIs.md\n\nStep 2: 5-Pillar Backend Structural Audit\n\n1. **Separation of Concerns**:\n   - Check controllers are lean (HTTP handling only)\n   - Verify business logic is in service classes\n   - Ensure data access is abstracted\n   - Fix: Extract business logic to services\n\n2. **Database Optimization**:\n   - Check for N+1 query problems\n   - Verify proper indexing\n   - Ensure pagination for list endpoints\n   - Fix: Implement eager loading and query optimization\n\n3. **Input Validation & Security**:\n   - Check every endpoint has input validation\n   - Verify SQL injection prevention\n   - Ensure rate limiting on sensitive routes\n   - Fix: Add comprehensive validation\n\n4. **Standardized Error Handling**:\n   - Check consistent error response format\n   - Verify global exception handler\n   - Ensure no stack traces in production\n   - Fix: Implement global error handling\n\n5. **Statelessness & Caching**:\n   - Check stateless authentication (JWT)\n   - Verify proper session management\n   - Ensure caching where appropriate\n   - Fix: Implement stateless design\n\nStep 3: Execute Refactoring\nFor each issue found, immediately refactor:\n1. Move business logic from controllers to services\n2. Optimize database queries\n3. Add input validation\n4. Standardize error responses\n5. Implement caching\n\nStep 4: Update Documentation\nUpdate ./docs/technical/BACKEND.md with:\n- New architecture patterns\n- Error handling strategy\n- Performance optimizations\n\nStep 5: Next Step Routing\nAfter structural refinements, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-backend-structure-checks"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-postphase-add-tests",
+  "description": "Adds comprehensive tests for a completed phase to ensure stability",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nA phase has been completed and macro-audited. You are the QA Engineer. Your task is to add comprehensive tests for the functionality implemented in this phase.\n\nStep 1: Review Phase Functionality\nOpen the IMPLEMENTATION_PLAN_<number>_ongoing.md file and review the completed phase:\n- Review all [CREATED_x.x_FILES] and [EDITED_x.x_FILES] for this phase\n- Understand the functionality implemented in each item\n- Note any integration points between items\n\nStep 2: Determine Testing Strategy\nBased on the phase functionality, determine appropriate testing:\n- Unit tests for individual functions/components\n- Integration tests for cross-item functionality\n- End-to-end tests for user workflows\n- Performance tests if applicable\n\nStep 3: Create Test Files\nFor each major functionality implemented in this phase:\n1. Create appropriate test files (e.g., *.test.ts, *.spec.ts, *_test.py)\n2. Write comprehensive test cases covering:\n   - Normal operation\n   - Edge cases\n   - Error conditions\n   - Integration scenarios\n\nStep 4: Test Implementation\nWrite the actual test code:\n- Use the project's established testing framework\n- Follow testing best practices (AAA pattern, clear test names, etc.)\n- Ensure tests are independent and repeatable\n- Include proper setup and teardown\n\nStep 5: Run and Verify Tests\nExecute the test suite:\n- Run the new tests to ensure they pass\n- Fix any failing tests or implementation issues\n- Ensure test coverage is adequate for the phase functionality\n\nStep 6: Update Documentation\nIn the phase section of the plan, add a testing summary:\n\n## Phase Testing Summary\n**Test Coverage:** [Percentage or description]\n**Test Types:** [Unit/Integration/E2E]\n**Test Files Created:** [List of test files]\n**Key Test Scenarios:** [Brief description of important test cases]\n\nStep 7: Next Step Routing\nAfter adding and verifying tests, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-postphase-bestpracticesaudit"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

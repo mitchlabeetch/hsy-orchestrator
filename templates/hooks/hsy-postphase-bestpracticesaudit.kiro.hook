@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-postphase-bestpracticesaudit",
+  "description": "Audits a completed phase for best practices compliance and code quality",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nA phase has been completed, tested, and is ready for final review. You are the Code Quality Auditor. Your task is to ensure the phase implementation follows all best practices and coding standards.\n\nStep 1: Review Best Practices Documentation\nRead ./docs/goals_and_principles/BEST_PRACTICES.md and ./docs/goals_and_principles/DO_NOT_DO.md to understand the project's coding standards.\n\nStep 2: Code Quality Audit\nReview all files created or modified in this phase (from [CREATED_x.x_FILES] and [EDITED_x.x_FILES]):\n1. **Code Style**: Check for consistent formatting, naming conventions, and code organization\n2. **Architecture**: Verify separation of concerns, proper abstraction, and design patterns\n3. **Error Handling**: Ensure proper error handling, logging, and user feedback\n4. **Security**: Check for security best practices (input validation, authentication, etc.)\n5. **Performance**: Look for performance optimizations and potential bottlenecks\n\nStep 3: Specific Checks\nFor each file, check:\n- Proper use of TypeScript/type safety\n- Consistent import patterns\n- Appropriate comments and documentation\n- No dead code or commented-out sections\n- Proper error boundaries and fallbacks\n- Accessibility considerations (if applicable)\n\nStep 4: Fix Issues Found\nFor any issues identified:\n1. Document the issue in the phase section\n2. Fix the code to comply with best practices\n3. Update [EDITED_x.x_FILES] if you modify files\n\nStep 5: Update Phase Documentation\nAdd a best practices summary to the phase:\n\n## Best Practices Compliance\n**Code Style:** [Compliant/Needs improvement]\n**Architecture:** [Well-structured/Needs refactoring]\n**Error Handling:** [Comprehensive/Needs work]\n**Security:** [Secure/Needs attention]\n**Performance:** [Optimized/Needs optimization]\n\n**Issues Fixed:** [List of best practice issues addressed]\n\nStep 6: Next Step Routing\nAfter completing the best practices audit, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-prerun-auditdoublecheck-doc-update (to continue with next phase) OR /hsy-postplan-fullcheck-doc-update (if this was the last phase)"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

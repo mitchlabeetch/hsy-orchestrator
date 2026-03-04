@@ -1,0 +1,275 @@
+#!/usr/bin/env node
+
+/**
+ * HSY Demo Script
+ * 
+ * Demonstrates the autonomous orchestrator in action
+ * Shows how Kiro would interact with the system
+ */
+
+const path = require('path');
+const fs = require('fs');
+
+// Colors
+const colors = {
+  reset: '\x1b[0m',
+  bright: '\x1b[1m',
+  red: '\x1b[31m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m',
+  magenta: '\x1b[35m',
+  cyan: '\x1b[36m'
+};
+
+function log(message, color = 'reset') {
+  console.log(`${colors[color]}${message}${colors.reset}`);
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function main() {
+  log('\n╔════════════════════════════════════════════════════════════╗', 'cyan');
+  log('║                                                            ║', 'cyan');
+  log('║     HSY Autonomous Orchestrator - Demo                    ║', 'cyan');
+  log('║                                                            ║', 'cyan');
+  log('╚════════════════════════════════════════════════════════════╝\n', 'cyan');
+  
+  log('This demo shows how the HSY orchestrator works with Kiro.\n', 'bright');
+  
+  await sleep(1000);
+  
+  // Step 1: Initialization
+  log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'cyan');
+  log('Step 1: Initialization', 'bright');
+  log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n', 'cyan');
+  
+  log('Kiro invokes the orchestrator:', 'yellow');
+  log('  invokeSubAgent({', 'reset');
+  log('    name: "general-task-execution",', 'reset');
+  log('    prompt: "Start HSY orchestrator",', 'reset');
+  log('    explanation: "Starting autonomous orchestration"', 'reset');
+  log('  })\n', 'reset');
+  
+  await sleep(2000);
+  
+  log('✅ Orchestrator initializes', 'green');
+  log('✅ Kiro tools bridge established', 'green');
+  log('✅ Model router configured (Balanced preset)', 'green');
+  
+  await sleep(1500);
+  
+  // Step 2: Scenario Detection
+  log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'cyan');
+  log('Step 2: Scenario Detection', 'bright');
+  log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n', 'cyan');
+  
+  log('Analyzing project state...', 'yellow');
+  await sleep(1500);
+  
+  log('✅ Detected scenario: execution', 'green');
+  log('   Description: Ready for implementation', 'reset');
+  log('   Has docs: ✅', 'reset');
+  log('   Has plans: ✅', 'reset');
+  log('   Has code: ✅', 'reset');
+  log('   Suggested hook: /hsy-start-next-plan\n', 'reset');
+  
+  await sleep(2000);
+  
+  // Step 3: Autonomous Execution Loop
+  log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'cyan');
+  log('Step 3: Autonomous Execution Loop', 'bright');
+  log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n', 'cyan');
+  
+  log('Starting autonomous execution...\n', 'yellow');
+  await sleep(1000);
+  
+  // Hook 1
+  log('┌─────────────────────────────────────────────────────────┐', 'blue');
+  log('│ Hook 1: /hsy-start-next-plan                            │', 'blue');
+  log('└─────────────────────────────────────────────────────────┘', 'blue');
+  
+  log('\n⚙️  Orchestrator prepares hook...', 'yellow');
+  await sleep(800);
+  
+  log('📤 Orchestrator invokes Kiro:', 'magenta');
+  log('   invokeSubAgent({', 'reset');
+  log('     name: "general-task-execution",', 'reset');
+  log('     prompt: "[Enhanced prompt with context]",', 'reset');
+  log('     explanation: "Executing hook: /hsy-start-next-plan"', 'reset');
+  log('   })\n', 'reset');
+  
+  await sleep(1500);
+  
+  log('🤖 Kiro executes hook:', 'cyan');
+  log('   🎯 STARTING: Analyzing implementation plan...', 'reset');
+  await sleep(1000);
+  log('   ⚙️  WORKING: Reading plan files...', 'reset');
+  await sleep(800);
+  log('   ⚙️  WORKING: Identifying next task...', 'reset');
+  await sleep(800);
+  log('   ✅ COMPLETED: Task identified', 'reset');
+  await sleep(500);
+  log('   📊 RESULT: Next task is "Implement user authentication"', 'reset');
+  await sleep(500);
+  log('   💡 NEXT: /hsy-next-work-run\n', 'reset');
+  
+  await sleep(1000);
+  
+  log('📥 Orchestrator receives result:', 'magenta');
+  log('   ✅ Hook completed successfully', 'green');
+  log('   📝 Updated state', 'reset');
+  log('   📊 Logged execution\n', 'reset');
+  
+  await sleep(1500);
+  
+  // Hook 2
+  log('┌─────────────────────────────────────────────────────────┐', 'blue');
+  log('│ Hook 2: /hsy-next-work-run                              │', 'blue');
+  log('└─────────────────────────────────────────────────────────┘', 'blue');
+  
+  log('\n⚙️  Orchestrator prepares hook...', 'yellow');
+  await sleep(800);
+  
+  log('📤 Orchestrator invokes Kiro:', 'magenta');
+  log('   invokeSubAgent({', 'reset');
+  log('     name: "general-task-execution",', 'reset');
+  log('     prompt: "[Enhanced prompt with context]",', 'reset');
+  log('     explanation: "Executing hook: /hsy-next-work-run"', 'reset');
+  log('   })\n', 'reset');
+  
+  await sleep(1500);
+  
+  log('🤖 Kiro executes hook:', 'cyan');
+  log('   🎯 STARTING: Implementing user authentication...', 'reset');
+  await sleep(1000);
+  log('   ⚙️  WORKING: Creating auth service...', 'reset');
+  await sleep(1200);
+  log('   ⚙️  WORKING: Adding login endpoint...', 'reset');
+  await sleep(1200);
+  log('   ⚙️  WORKING: Implementing JWT tokens...', 'reset');
+  await sleep(1200);
+  log('   ✅ COMPLETED: Authentication implemented', 'reset');
+  await sleep(500);
+  log('   📊 RESULT: Created 3 files, modified 2 files', 'reset');
+  await sleep(500);
+  log('   💡 NEXT: /hsy-audit-last-run\n', 'reset');
+  
+  await sleep(1000);
+  
+  log('📥 Orchestrator receives result:', 'magenta');
+  log('   ✅ Hook completed successfully', 'green');
+  log('   📝 Updated state', 'reset');
+  log('   📊 Logged execution\n', 'reset');
+  
+  await sleep(1500);
+  
+  // Hook 3
+  log('┌─────────────────────────────────────────────────────────┐', 'blue');
+  log('│ Hook 3: /hsy-audit-last-run                             │', 'blue');
+  log('└─────────────────────────────────────────────────────────┘', 'blue');
+  
+  log('\n⚙️  Orchestrator prepares hook...', 'yellow');
+  await sleep(800);
+  
+  log('📤 Orchestrator invokes Kiro:', 'magenta');
+  log('   invokeSubAgent({', 'reset');
+  log('     name: "general-task-execution",', 'reset');
+  log('     prompt: "[Enhanced prompt with context]",', 'reset');
+  log('     explanation: "Executing hook: /hsy-audit-last-run"', 'reset');
+  log('   })\n', 'reset');
+  
+  await sleep(1500);
+  
+  log('🤖 Kiro executes hook:', 'cyan');
+  log('   🎯 STARTING: Auditing authentication implementation...', 'reset');
+  await sleep(1000);
+  log('   ⚙️  WORKING: Running tests...', 'reset');
+  await sleep(1200);
+  log('   ⚙️  WORKING: Checking security...', 'reset');
+  await sleep(1200);
+  log('   ⚙️  WORKING: Validating code quality...', 'reset');
+  await sleep(1200);
+  log('   ✅ COMPLETED: Audit passed', 'reset');
+  await sleep(500);
+  log('   📊 RESULT: All tests passing, no security issues', 'reset');
+  await sleep(500);
+  log('   💡 NEXT: /hsy-next-work-run\n', 'reset');
+  
+  await sleep(1000);
+  
+  log('📥 Orchestrator receives result:', 'magenta');
+  log('   ✅ Hook completed successfully', 'green');
+  log('   📝 Updated state', 'reset');
+  log('   📊 Logged execution\n', 'reset');
+  
+  await sleep(1500);
+  
+  // Workflow Complete
+  log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'cyan');
+  log('Step 4: Workflow Complete', 'bright');
+  log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n', 'cyan');
+  
+  log('🎉 All hooks executed successfully!', 'green');
+  log('📊 Execution Summary:', 'bright');
+  log('   Total hooks: 3', 'reset');
+  log('   Completed: 3 ✅', 'green');
+  log('   Failed: 0', 'reset');
+  log('   Duration: ~45 seconds', 'reset');
+  
+  await sleep(2000);
+  
+  // Summary
+  log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'cyan');
+  log('Key Features Demonstrated', 'bright');
+  log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n', 'cyan');
+  
+  log('✅ Autonomous Execution', 'green');
+  log('   No manual intervention needed\n', 'reset');
+  
+  log('✅ Kiro Integration', 'green');
+  log('   Seamless invokeSubAgent calls\n', 'reset');
+  
+  log('✅ Context Awareness', 'green');
+  log('   Enhanced prompts with project context\n', 'reset');
+  
+  log('✅ Continuous Flow', 'green');
+  log('   Automatic progression through hooks\n', 'reset');
+  
+  log('✅ Real-time Updates', 'green');
+  log('   Streaming execution progress\n', 'reset');
+  
+  log('✅ Intelligent Routing', 'green');
+  log('   Model selection per role\n', 'reset');
+  
+  await sleep(2000);
+  
+  log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'cyan');
+  log('Try It Yourself!', 'bright');
+  log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n', 'cyan');
+  
+  log('Launch the TUI:', 'yellow');
+  log('  hsy-launch\n', 'bright');
+  
+  log('Run in CLI mode:', 'yellow');
+  log('  hsy-auto\n', 'bright');
+  
+  log('From Kiro:', 'yellow');
+  log('  invokeSubAgent({', 'bright');
+  log('    name: "general-task-execution",', 'bright');
+  log('    prompt: "Start HSY orchestrator",', 'bright');
+  log('    explanation: "Starting autonomous orchestration"', 'bright');
+  log('  })\n', 'bright');
+  
+  log('Read the integration guide:', 'yellow');
+  log('  cat .kiro/HSY_KIRO_INTEGRATION_GUIDE.md\n', 'bright');
+  
+  log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n', 'cyan');
+}
+
+main().catch(error => {
+  console.error('Demo failed:', error);
+  process.exit(1);
+});

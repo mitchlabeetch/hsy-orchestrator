@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-postplan-fullaudit-and-test-coverage",
+  "description": "Performs global audit and test coverage check across entire project",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nAll Implementation Plans have been completed. You are the Global QA Director. Your task is to perform a comprehensive audit and test coverage check across the entire project.\n\nStep 1: Global Context Review\nRead the following to understand the full project scope:\n- ./docs/technical/ARCHITECTURE.md\n- ./docs/technical/TECH_STACK.md\n- ./docs/goals_and_principles/GOALS_AND_PHILOSOPHY.md\n- ./docs/goals_and_principles/END_USER_WISH_INTROSPECTION.md\n\nStep 2: Cross-Plan Integration Audit\nReview all completed plans in ./docs/planning/ (files ending with _complete.md):\n1. **Integration Points**: Check how components from different plans work together\n2. **Data Flow**: Verify data flows correctly between different plan components\n3. **Dependencies**: Identify any cross-plan dependencies or conflicts\n4. **Architecture Consistency**: Ensure architectural patterns are consistent across plans\n\nStep 3: Global Test Coverage\n1. **Run All Tests**: Execute the complete test suite for the entire project\n2. **Coverage Analysis**: Check test coverage for critical paths and integration points\n3. **Missing Tests**: Identify areas lacking test coverage\n4. **Integration Tests**: Ensure tests exist for cross-plan functionality\n\nStep 4: Performance and Security Audit\n1. **Performance**: Check for performance bottlenecks in integrated system\n2. **Security**: Review security across all integrated components\n3. **Scalability**: Assess scalability of the complete system\n\nStep 5: Documentation Consistency Check\nVerify that all documentation is consistent:\n- Technical documentation matches actual implementation\n- Architecture diagrams reflect current state\n- API documentation is complete and accurate\n- User documentation covers all features\n\nStep 6: Global Status Report\nCreate a global status report in ./docs/goals_and_principles/IMPORTANT_LEARNINGS.md:\n\n# Global Project Audit - [Date]\n**Overall Status:** [Stable/Needs Work/Production Ready]\n**Test Coverage:** [Percentage/Status]\n**Integration Health:** [Good/Needs Attention/Poor]\n**Critical Issues:** [List any critical issues found]\n**Recommendations:** [Suggestions for improvement]\n\nStep 7: Next Step Routing\nAfter completing the global audit, ask me which refinement track to start:\n- For frontend refinement: suggest /hsy-frontend-ui-refinement\n- For backend refinement: suggest /hsy-backend-structure-refinement\n- For infrastructure: suggest /hsy-fullstack-infrastructure-refinement"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

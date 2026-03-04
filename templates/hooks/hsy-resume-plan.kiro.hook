@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-resume-plan",
+  "description": "Resumes work on an interrupted or paused implementation plan",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nYou are resuming work on an existing HookSystem project. Your task is to re-establish context and continue from where work left off.\n\nStep 1: Identify Current State\n1. Check ./docs/planning/ directory for the active plan\n2. Look for files with _ongoing.md suffix\n3. If no ongoing plan, check for the most recent _nonstarted or _complete plan\n\nStep 2: Load Current Context\n1. Open the active IMPLEMENTATION_PLAN_*_ongoing.md file\n2. Read the plan to understand current phase and items\n3. Check which items are marked [x] Ran and [x] Audited\n4. Identify the next item to work on (first item with [ ] Unticked)\n\nStep 3: Load Project Context\n1. Read ./docs/goals_and_principles/GOALS_AND_PHILOSOPHY.md\n2. Read ./docs/technical/ARCHITECTURE.md\n3. Read ./docs/goals_and_principles/BEST_PRACTICES.md\n\nStep 4: Resume Work\n1. Continue with the next item in the plan\n2. Follow the standard workflow for that item\n3. Document your work as usual\n\nStep 5: Next Step Routing\nAfter resuming work, explicitly suggest the next appropriate hook based on the current state."
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

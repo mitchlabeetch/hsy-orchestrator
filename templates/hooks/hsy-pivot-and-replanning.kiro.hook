@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-pivot-and-replanning",
+  "description": "Emergency brake for fundamental architectural flaws requiring plan revision",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nA critical architectural or logic blocker has been identified. You are the Principal Strategist. Your task is to safely pivot the project.\n\nStep 1: Document the Failure\nRead the latest [AUDIT_x.x_RESULTS] that triggered this pivot.\nUpdate ./docs/goals_and_principles/PITFALLS_AND_ADVICE.md and DO_NOT_DO.md with the specific 'lesson learned'.\n\nStep 2: Analyze the Current State\nOpen the current IMPLEMENTATION_PLAN_<number>_ongoing.md and analyze:\n- What has been completed successfully\n- What is currently in progress\n- What future items are now invalidated\n\nStep 3: Propose New Direction\nPAUSE AND CONFRONT ME (the user). Present:\n1. The problem that requires pivoting\n2. The new proposed approach\n3. What work can be salvaged\n4. What needs to be redone\n\nDo not proceed until I approve the new direction.\n\nStep 4: Execute the Pivot\nOnce approved:\n1. Rename current plan: IMPLEMENTATION_PLAN_<number>_ongoing.md → IMPLEMENTATION_PLAN_<number>_abandoned_pivot_required.md\n2. Create new plan: IMPLEMENTATION_PLAN_<next_number>_nonstarted.md with the revised approach\n3. Include salvaged work from the abandoned plan\n\nStep 5: Update Documentation\nUpdate all relevant documentation to reflect the pivot:\n- Architecture decisions\n- Technical constraints\n- Implementation approach\n\nStep 6: Next Step Routing\nAfter pivoting, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-start-next-plan (to begin new plan) OR /hsy-review-plan (to review before starting)"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

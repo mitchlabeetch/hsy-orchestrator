@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-add-plan",
+  "description": "Dynamically adds a new implementation plan to the project sequence",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nThe project scope is expanding, and a new implementation plan needs to be added. You are the System Architect. Your task is to scaffold a new plan without disrupting the existing sequence.\n\nStep 1: Determine Next Plan Number\nScan the ./docs/planning/ directory. Find the highest numbered IMPLEMENTATION_PLAN file (regardless of status: _nonstarted, _ongoing, or _complete).\nCalculate the next sequential number (e.g., if highest is IMPLEMENTATION_PLAN_3_complete.md, new plan will be number 4).\n\nStep 2: Scope Definition (Iterate with User)\nBefore creating the file, you MUST ask me (the user) for:\n1. The goal of this new plan\n2. The phases and items to include\n3. Any specific requirements or constraints\nDo not proceed until I provide this information.\n\nStep 3: Create New Plan File\nOnce I provide the scope, create: IMPLEMENTATION_PLAN_<next_number>_nonstarted.md in ./docs/planning/\n\nStep 4: Use Strict Boilerplate\nThe file MUST use this exact structure:\n\n# Phase [1]: [Phase Name]\n**Status:** [ ] Unticked / [ ] Ran / [ ] Audited\n**Goal:** [PHASE_1_GOAL]\n**Success Criteria:** [PHASE_1_SUCCESS_CRITERIA]\n**Important Notes:** [PHASE_1_IMPORTANT_NOTES]\n\n## Items (Tasks)\n### Item [1.1]: [First Task Name]\n**Status:** [ ] Unticked / [ ] Ran / [ ] Audited\n[ITEM_1.1_DESCRIPTION]\n[ITEM_1.1_GOALS]\n[CREATED_1.1_FILES]\n[EDITED_1.1_FILES]\n[COMPLETION_1.1_NOTES]\n[AUDIT_1.1_RESULTS]\n[FIXING_1.1_PLAN]\n\n*(Add more items as specified by the user)*\n\nStep 5: Verify Plan Structure\nCheck that:\n- The file uses the correct numbering\n- All placeholders are present\n- The structure matches the framework requirements\n\nStep 6: Next Step Routing\nAfter creating the new plan, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-start-next-plan (to begin execution) OR /hsy-review-plan (to review before starting)"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

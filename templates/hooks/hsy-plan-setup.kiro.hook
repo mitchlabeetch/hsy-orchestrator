@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-plan-setup",
+  "description": "Translates established documentation into actionable, sequential implementation plans with strict boilerplate formatting",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nThe core project documentation is established. You are the core intelligence of the HookSystem framework. Your task is to break down the entire project into a series of highly detailed, sequential implementation plans. You are not writing app code yet.\n\nStep 1: Ingest the Source of Truth\nSilently read ./docs/goals_and_principles/GOALS_AND_PHILOSOPHY.md, END_USER_WISH_INTROSPECTION.md, and ./docs/technical/ARCHITECTURE.md. Understand the full scope, the user personas, and the technical constraints.\n\nStep 2: Propose the Roadmap (Iterate with User)\nBefore creating any files, propose a high-level roadmap to me (the user). Divide the project into logical phases (e.g., Phase 1: Auth & DB Setup; Phase 2: Core UI Shell; Phase 3: Feature X). Wait for my approval or modifications. DO NOT proceed to Step 3 until I explicitly approve the roadmap.\n\nStep 3: Scaffolding the Planning Directory\nOnce I approve the roadmap, check for or create the ./docs/planning/ directory.\n\nStep 4: Generate Implementation Plans\nFor each approved phase, create a file named exactly: IMPLEMENTATION_PLAN_<number>_nonstarted.md (e.g., IMPLEMENTATION_PLAN_1_nonstarted.md, IMPLEMENTATION_PLAN_2_nonstarted.md).\n\nStep 5: STRICT Boilerplate Enforcement\nEVERY implementation plan file MUST contain the exact following structure and placeholders. Do not alter the bracketed tags, as the framework relies on them for regex parsing during the audit phases. Generate them now using this exact boilerplate:\n\n# Phase [Number]: [Phase Name]\n**Status:** [ ] Unticked / [ ] Ran / [ ] Audited\n**Goal:** [PHASE_x_GOAL]\n**Success Criteria:** [PHASE_x_SUCCESS_CRITERIA]\n**Important Notes:** [PHASE_x_IMPORTANT_NOTES]\n\n## Items (Tasks)\n### Item [x.1]: [Task Name]\n**Status:** [ ] Unticked / [ ] Ran / [ ] Audited\n[ITEM_x.1_DESCRIPTION]\n[ITEM_x.1_GOALS]\n[CREATED_x.1_FILES]\n[EDITED_x.1_FILES]\n[COMPLETION_x.1_NOTES]\n[AUDIT_x.1_RESULTS]\n[FIXING_x.1_PLAN]\n\n*(Repeat the Item block for all distinct tasks within the phase. Fill in the Goal, Description, and Important Notes based on our roadmap. Leave the CREATED, EDITED, COMPLETION, AUDIT, and FIXING placeholders exactly as they are—they will be filled during execution.)*\n\nNext Step Routing:\nVerify that all files have been created in the correct format with the _nonstarted tag. Confirm to me that the planning phase is initialized. Then, explicitly suggest the next hook to begin actual coding execution: /hsy-start-next-plan."
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

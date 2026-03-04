@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-externalservices-iterationandchecks",
+  "description": "Audits and fortifies external service integrations with zero-trust policy",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nFullstack synchronization is complete. You are the Integrations Architect. Your task is to audit external services.\n\nCRITICAL ASSUMPTION: External services WILL fail. Plan for it.\n\nStep 1: Identify External Dependencies\nRead these files:\n- ./docs/technical/EXTERNAL_SERVICES.md\n- ./docs/technical/ENV_EXAMPLES.md\n\nIdentify all third-party services:\n- Payment gateways (Stripe, etc.)\n- Email providers (SendGrid, etc.)\n- Cloud storage (AWS S3, etc.)\n- OAuth providers (Google, etc.)\n- AI services (OpenAI, etc.)\n\nStep 2: 5-Pillar Zero-Trust Audit\n\n1. **Resilience & Graceful Degradation**:\n   - Check try/catch blocks around external calls\n   - Verify non-critical failures don't break user flow\n   - Check retry logic for critical calls\n   - Fix: Add fallbacks and retries\n\n2. **Webhook Cryptographic Security**:\n   - Check webhook signature verification\n   - Verify no blind acceptance of webhooks\n   - Ensure idempotent webhook processing\n   - Fix: Implement webhook security\n\n3. **Environment Segregation**:\n   - Check sandbox vs production keys\n   - Verify no test data in production\n   - Ensure proper environment switching\n   - Fix: Implement environment separation\n\n4. **Cost Control & Rate Limiting**:\n   - Check caching for expensive API calls\n   - Verify no rate limit violations\n   - Ensure cost-effective API usage\n   - Fix: Implement caching and rate control\n\n5. **Data Privacy & PII Leaks**:\n   - Check logs don't contain sensitive data\n   - Verify no PII sent to external services unnecessarily\n   - Ensure proper data sanitization\n   - Fix: Implement data privacy measures\n\nStep 3: Execute Security Improvements\n\n1. **Add Resilience**:\n   - Implement retry logic with exponential backoff\n   - Add circuit breakers for failing services\n   - Create graceful degradation paths\n\n2. **Secure Webhooks**:\n   - Add signature verification\n   - Implement idempotency checks\n   - Add webhook validation\n\n3. **Environment Management**:\n   - Separate sandbox/production configurations\n   - Add environment validation\n   - Document environment setup\n\nStep 4: Update Documentation\nUpdate ./docs/technical/EXTERNAL_SERVICES.md with:\n- Retry strategies\n- Webhook security\n- Cost control measures\n\nStep 5: Next Step Routing\nAfter external service audit, ask which finalization track:\n- For user documentation: suggest /hsy-userside-repo-documentation-refresh\n- For CI/CD: suggest /hsy-ci-cd-overview-implementation-plan"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

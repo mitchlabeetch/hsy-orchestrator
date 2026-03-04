@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-postaudit-apply-fixes-new-phase",
+  "description": "Applies fixes for the final items in a phase and transitions to phase-level audit",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nThe Auditor has completed its review of the final items in this phase. You are now the Fixer. Your task is to apply the final corrections and prepare this phase for macro-level review.\n\nStep 1: Read the Final Audit Report\nOpen the current IMPLEMENTATION_PLAN_<number>_ongoing.md file. Locate the final items of the current phase that have been marked [x] Ran but not yet [x] Audited.\nCarefully read the [AUDIT_x.x_RESULTS] and [FIXING_x.x_PLAN] for these final items.\n\nStep 2: Apply the Final Fixes\nExecute the exact fixes outlined in the [FIXING_x.x_PLAN] for each final item.\nOpen and modify the referenced files to implement the Auditor's required corrections.\nEnsure the fixes are comprehensive and address all issues raised in the audit.\n\nStep 3: Finalize the Phase\nFor each final item you fix:\n1. Update the [EDITED_x.x_FILES] to include any new files touched during fixes\n2. Mark the item as [x] Audited (both Ran and Audited should be ticked)\n3. Add a note: \"Fixed on [Date/Time] - All audit issues resolved.\"\n\nStep 4: Mark Phase as Ready for Macro-Audit\nOnce all items in the phase are marked [x] Ran and [x] Audited:\n1. Mark the Phase Header status as [x] Ran and [x] Audited\n2. Add a note: \"Phase ready for macro-audit and testing\"\n\nStep 5: Next Step Routing\nAfter applying all fixes and marking the phase complete, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-postphase-comprehensive-audit"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

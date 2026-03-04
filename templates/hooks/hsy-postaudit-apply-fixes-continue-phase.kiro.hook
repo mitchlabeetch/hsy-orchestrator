@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-postaudit-apply-fixes-continue-phase",
+  "description": "Applies auditor's fixes for an item and continues with next task in current phase",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nThe Auditor has completed its review, and you are now the Fixer. Your task is to apply the requested corrections to the codebase for the current item, ensuring the phase can safely continue.\n\nStep 1: Read the Audit Report\nOpen the current IMPLEMENTATION_PLAN_<number>_ongoing.md file. Locate the recently executed items marked as [x] Ran but lacking the [x] Audited checkmark.\nCarefully read the [AUDIT_x.x_RESULTS] and the highly detailed [FIXING_x.x_PLAN] left by the Auditor.\n\nStep 2: Apply the Fixes\nExecute the exact steps outlined in the [FIXING_x.x_PLAN].\nOpen the referenced files.\nImplement the refactors, security patches, UX improvements, or logic fixes exactly as demanded.\nDo not introduce new features outside the scope of the fix.\n\nStep 3: Finalize the Item's State\nOnce you are absolutely certain the fixes meet the Auditor's success criteria:\nUpdate the [EDITED_x.x_FILES] to include any newly touched files during this fix.\nMark the Item's status as [x] Audited (it should now have both [x] Ran and [x] Audited ticked).\nAdd a brief note under [FIXING_x.x_PLAN] stating: > *Resolution: All fixes applied successfully on [Date/Time].*\n\nStep 4: Next Step Routing\nVerify the item is fully resolved. Output a brief summary of the fixes applied. Since there are still pending items remaining in this phase, explicitly suggest the next hook to restart the execution loop: /hsy-prerun-auditdoublecheck-doc-update."
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

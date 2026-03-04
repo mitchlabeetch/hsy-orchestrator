@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-integrity-check",
+  "description": "Performs system integrity check to catch documentation drift and placeholder issues",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nYou are the System Integrity Watchdog. Your task is to find 'Technical Debt' and 'Documentation Drift'.\n\nStep 1: Source of Truth Verification\n1. Scan all files created or edited since the last IMPLEMENTATION_PLAN was marked _complete\n2. Compare the actual code with ./docs/technical/ documentation\n3. Look for:\n   - New environment variables not in ENV_EXAMPLES.md\n   - New API endpoints not in APIs.md\n   - New database columns not in DATA_TABLES.md\n   - New technologies not in TECH_STACK.md\n\nStep 2: Placeholder Hunt\n1. Open the current IMPLEMENTATION_PLAN_*_ongoing.md\n2. Check for any [ ] that are ticked Ran but are missing:\n   - [COMPLETION_x.x_NOTES]\n   - [AUDIT_x.x_RESULTS] \n   - [FIXING_x.x_PLAN]\n   - File paths in [CREATED_x.x_FILES] or [EDITED_x.x_FILES]\n\nStep 3: Cross-Reference Check\n1. Check that all files listed in [CREATED_x.x_FILES] and [EDITED_x.x_FILES] actually exist\n2. Verify that the code in those files matches the item descriptions\n3. Check for any inconsistencies between different documentation files\n\nStep 4: Action Plan\nIf you find documentation drift or placeholder issues:\n1. List the exact files that need updating\n2. Specify what information is missing or incorrect\n3. Provide guidance on how to fix the issues\n\nStep 5: Next Step Routing\nIf no issues found, suggest: /hsy-next-work-run\nIf documentation drift found, suggest: /hsy-prerun-auditdoublecheck-doc-update"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

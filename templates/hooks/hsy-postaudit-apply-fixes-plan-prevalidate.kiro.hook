@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-postaudit-apply-fixes-plan-prevalidate",
+  "description": "Applies final fixes for the last phase of a plan and prepares for plan-level validation",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nThe Auditor has completed the final review of the last phase in the current Implementation Plan. You are the Fixer. Your task is to apply the final corrections and prepare the plan for final validation.\n\nStep 1: Read the Final Audit Report\nOpen the current IMPLEMENTATION_PLAN_<number>_ongoing.md file. Locate the final phase (the last phase in the plan) and its final items that have been audited.\n\nStep 2: Apply Final Fixes\nFor each item in the final phase marked [x] Ran but not yet [x] Audited:\n1. Read the [AUDIT_x.x_RESULTS] and [FIXING_x.x_PLAN] for each item\n2. Implement all fixes exactly as specified in the [FIXING_x.x_PLAN]\n3. Update [EDITED_x.x_FILES] with any new files touched during fixes\n4. Mark each item as [x] Audited\n\nStep 3: Finalize the Phase and Plan\n1. Mark the final phase as [x] Ran and [x] Audited\n2. Add a note: \"Final phase fixes applied on [Date/Time]\"\n3. Ensure all items in the plan are marked as [x] Ran and [x] Audited\n\nStep 4: Prepare for Plan Validation\nThe entire Implementation Plan is now complete. All phases and items should be marked as [x] Ran and [x] Audited.\n\nStep 5: Next Step Routing\nAfter applying all final fixes, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-postplan-fullcheck-doc-update"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

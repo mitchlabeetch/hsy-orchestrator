@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-postphase-comprehensive-audit",
+  "description": "Performs macro-level audit of a completed phase to ensure integration and goal achievement",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nA phase has been completed and all items are marked as audited. You are the Macro-Auditor. Your task is to perform a comprehensive audit of the entire completed phase to ensure it meets the original goals and integrates properly.\n\nStep 1: Phase Context Review\nOpen the IMPLEMENTATION_PLAN_<number>_ongoing.md file and locate the recently completed phase. Review:\n- The phase's [PHASE_x_GOAL] and [PHASE_x_SUCCESS_CRITERIA]\n- All items within the phase and their completion status\n- The [PHASE_x_IMPORTANT_NOTES] and [PHASE_x_GOAL]\n\nStep 2: Integration Audit\nExamine how the individual items within this phase work together:\n- Do the completed items collectively achieve the phase goal?\n- Are there integration points between items that need verification?\n- Does the combined functionality meet the success criteria?\n\nStep 3: Cross-Item Dependencies\nCheck for dependencies between items in this phase:\n- Are there any circular dependencies or conflicts?\n- Do data flows between items work correctly?\n- Are there any integration points with previous phases?\n\nStep 4: Documentation Audit\nVerify that all documentation has been updated:\n- Are all [CREATED_x.x_FILES] and [EDITED_x.x_FILES] properly documented?\n- Are all [COMPLETION_x.x_NOTES] complete and accurate?\n- Are all [AUDIT_x.x_RESULTS] and [FIXING_x.x_PLAN] sections properly filled?\n\nStep 5: Success Criteria Verification\nFor each success criterion in [PHASE_x_SUCCESS_CRITERIA], verify:\n1. The criterion is clearly defined\n2. There is evidence of meeting the criterion\n3. Any edge cases or boundary conditions are handled\n\nStep 6: Phase Completion Documentation\nAt the end of the phase section in the plan, add a new section:\n\n## Phase Completion Summary\n**Date Completed:** [Current Date]\n**Phase Status:** [x] All items completed and audited\n**Success Criteria Met:** [List which criteria were met]\n**Integration Notes:** [Any cross-item integration notes]\n**Outstanding Issues:** [Any known issues to address in future phases]\n\nStep 7: Next Steps\nAfter completing the phase audit, explicitly suggest the next step: /hsy-postphase-add-tests\n\nStep 8: Next Step Routing\nAfter completing the phase audit, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-postphase-add-tests"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-postplan-fullcheck-doc-update",
+  "description": "Performs comprehensive documentation update after plan completion",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nAn Implementation Plan has been completed. You are the Documentation Architect. Your task is to perform a comprehensive documentation update to reflect all the work completed in this plan.\n\nStep 1: Plan Completion Verification\nOpen the IMPLEMENTATION_PLAN_<number>_ongoing.md file and verify:\n- All phases are marked [x] Ran and [x] Audited\n- All items within each phase are marked [x] Ran and [x] Audited\n- All [AUDIT_x.x_RESULTS] and [FIXING_x.x_PLAN] sections are complete\n\nStep 2: Rename Plan File\nRename the file from _ongoing to _complete:\nIMPLEMENTATION_PLAN_<number>_ongoing.md → IMPLEMENTATION_PLAN_<number>_complete.md\n\nStep 3: Extract Key Learnings\nReview the entire completed plan and extract:\n- Technical learnings from <LEARNINGS> sections\n- Best practices discovered\n- Pitfalls and solutions found\n- Architecture decisions made\n\nStep 4: Update Global Documentation\nUpdate the following documentation files with information from the completed plan:\n\n1. **./docs/goals_and_principles/IMPORTANT_LEARNINGS.md**\n   - Add key technical and process learnings\n   - Include any new best practices discovered\n\n2. **./docs/goals_and_principles/BEST_PRACTICES.md**\n   - Update with new coding standards or patterns\n   - Add any architecture decisions that should be followed\n\n3. **./docs/goals_and_principles/PITFALLS_AND_ADVICE.md**\n   - Add any new pitfalls encountered\n   - Include solutions and workarounds\n\n4. **./docs/technical/ARCHITECTURE.md**\n   - Update with any new architectural components\n   - Document integration patterns used\n\n5. **./docs/technical/TECH_STACK.md**\n   - Add any new libraries or tools used\n   - Update version information if changed\n\nStep 5: Verify Documentation Consistency\nEnsure all documentation is consistent:\n- No contradictory information between files\n- All technical decisions are documented\n- Learnings are properly categorized and organized\n\nStep 6: Create Plan Summary\nAt the top of the _complete.md file, add a summary section:\n\n# Plan Completion Summary\n**Plan Number:** [Number]\n**Completion Date:** [Date]\n**Total Phases:** [Count]\n**Total Items:** [Count]\n**Key Achievements:** [Bullet list of major accomplishments]\n**Technical Debt Created:** [Any known technical debt]\n**Recommendations for Next Plan:** [Suggestions for future work]\n\nStep 7: Next Step Routing\nAfter completing documentation updates, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-postplan-fullaudit-and-test-coverage"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

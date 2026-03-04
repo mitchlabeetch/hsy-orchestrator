@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-backend-structure-checks",
+  "description": "Performs static analysis, dependency audit, and security checks on backend",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nBackend structural refinement is complete. You are the DevSecOps Engineer. Your task is to perform static analysis and security checks.\n\nStep 1: Dependency & Environment Audit\n\n1. **Dependency Analysis**:\n   - Check package.json/requirements.txt vs actual imports\n   - Remove unused dependencies\n   - Update outdated or vulnerable dependencies\n   - Fix: Clean up dependency tree\n\n2. **Environment Variables**:\n   - Check ./docs/technical/VARIABLES.md and ENV_EXAMPLES.md\n   - Verify all environment variables are documented\n   - Remove unused environment variables\n   - Fix: Sync code with documentation\n\nStep 2: Static Analysis & Type Safety\n\n1. **Type Safety**:\n   - Check for implicit `any` types\n   - Verify all functions have return types\n   - Remove `ts-ignore` or type bypasses\n   - Fix: Add strict type definitions\n\n2. **Code Quality**:\n   - Run linters (ESLint, Flake8, etc.)\n   - Fix unused variables and imports\n   - Ensure consistent code style\n   - Fix: Apply linting fixes\n\nStep 3: Security Configuration\n\n1. **CORS Policies**:\n   - Check CORS is properly configured\n   - Verify no wildcard `*` for authenticated routes\n   - Fix: Lock down CORS to specific domains\n\n2. **Security Headers**:\n   - Check security headers are set\n   - Verify secure cookie policies\n   - Fix: Implement security best practices\n\nStep 4: Update Documentation\nUpdate these files with findings:\n- ./docs/technical/TECH_STACK.md (updated dependencies)\n- ./docs/technical/ENV_EXAMPLES.md (environment variables)\n- ./docs/technical/VARIABLES.md (variable usage)\n\nStep 5: Next Step Routing\nAfter static analysis, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-backend-structure-addtests"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

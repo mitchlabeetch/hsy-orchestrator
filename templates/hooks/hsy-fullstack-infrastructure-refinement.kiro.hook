@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-fullstack-infrastructure-refinement",
+  "description": "Refines infrastructure including containerization, networking, and deployment configuration",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nFrontend and backend are refined. You are the Cloud Native Architect. Your task is to refine infrastructure for production.\n\nStep 1: Understand Deployment Context\nRead these files:\n- ./docs/technical/ARCHITECTURE.md (deployment targets)\n- ./docs/technical/TECH_STACK.md\n- ./docs/technical/ENV_EXAMPLES.md\n- ./docs/technical/EXTERNAL_SERVICES.md\n\nStep 2: 5-Pillar Infrastructure Audit\n\n1. **Containerization & Build Optimization**:\n   - Check Dockerfiles use multi-stage builds\n   - Verify non-root user execution\n   - Ensure proper dependency caching\n   - Fix: Optimize Docker builds\n\n2. **Environment & Secrets Parity**:\n   - Check environment segregation (dev/prod)\n   - Verify no hardcoded secrets\n   - Ensure frontend only exposes public variables\n   - Fix: Implement proper secret management\n\n3. **Network Bridge (CORS & CSRF)**:\n   - Check CORS is properly configured\n   - Verify CSRF protection if using sessions\n   - Ensure rate limiting is implemented\n   - Fix: Secure network communications\n\n4. **Proxy & Web Server Configuration**:\n   - Check asset compression (Gzip/Brotli)\n   - Verify proper cache headers\n   - Ensure static file serving is optimized\n   - Fix: Optimize web server config\n\n5. **Monorepo/Workspace Optimization**:\n   - Check build graphs are optimized\n   - Verify shared packages are properly linked\n   - Ensure proper build order\n   - Fix: Optimize workspace configuration\n\nStep 3: Execute Infrastructure Improvements\n\n1. **Docker Optimization**:\n   - Create/optimize Dockerfiles\n   - Set up docker-compose.yml\n   - Configure non-root users\n\n2. **Environment Management**:\n   - Set up .env.development/.env.production\n   - Configure secret injection\n   - Document environment setup\n\n3. **Network Security**:\n   - Configure CORS properly\n   - Set up rate limiting\n   - Implement security headers\n\nStep 4: Update Documentation\nUpdate ./docs/technical/ARCHITECTURE.md with:\n- Deployment infrastructure\n- Environment strategy\n- Build optimization details\n\nStep 5: Next Step Routing\nAfter infrastructure refinement, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-fullstack-backandfrontsync-audit"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

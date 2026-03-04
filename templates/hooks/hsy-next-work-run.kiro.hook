@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-next-work-run",
+  "description": "Executes the next task in the ongoing plan and documents it for audit",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nThe pre-run checks are complete, and the context is synced. Your task is to implement the next sequential item in the ongoing plan and document it for the auditor.\n\nStep 1: Context Refresh\nSilently read ./docs/goals_and_principles/BEST_PRACTICES.md and ./docs/technical/ARCHITECTURE.md. You must adhere strictly to these rules while coding.\n\nStep 2: Locate and Execute the Next Task\nOpen the current IMPLEMENTATION_PLAN_<number>_ongoing.md file.\nLocate the first item with status [ ] Unticked. This is your current task.\nDeeply analyze its [ITEM_x.x_DESCRIPTION] and [ITEM_x.x_GOALS].\nWrite the actual application code to fulfill this task. Build the UI, logic, routing, or infrastructure exactly as required. Ensure your code is production-ready.\n\nStep 3: Document the Work (CRITICAL FOR AUDIT)\nYou must update the ongoing plan with exact formatting for the Auditor:\n1. Change the item's status from [ ] Unticked to [x] Ran. DO NOT tick \"Audited\".\n2. Fill [CREATED_x.x_FILES] with exact relative paths of files you created.\n3. Fill [EDITED_x.x_FILES] with exact relative paths of files you modified.\n4. Fill [COMPLETION_x.x_NOTES] with these exact sub-headers:\n<CONFIDENCE>: Rate (High/Medium/Low) and briefly explain why.\n<DOUBTS>: List any blockers, edge cases, or elements needing auditor scrutiny. Write \"None\" if none.\n<LEARNINGS>: Note any stack quirks or technical decisions.\n<OTHER>: Any other context for the Auditor.\n\nStep 4: Next Step Routing\nAfter writing code and updating the plan, output a brief summary of what you built. Then Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-audit-last-run"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

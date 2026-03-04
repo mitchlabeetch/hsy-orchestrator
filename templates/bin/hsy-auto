@@ -1,0 +1,121 @@
+#!/usr/bin/env node
+
+/**
+ * HSY Auto - Simplified autonomous workflow helper
+ * 
+ * This provides a continuous workflow loop that:
+ * 1. Prepares the next hook
+ * 2. Waits for you to execute it in Kiro
+ * 3. Prompts you to mark it complete
+ * 4. Repeats
+ */
+
+const path = require('path');
+const fs = require('fs');
+const readline = require('readline');
+
+// Find workspace root
+function findWorkspaceRoot() {
+  let currentDir = process.cwd();
+  
+  while (currentDir !== '/') {
+    if (fs.existsSync(path.join(currentDir, '.kiro'))) {
+      return currentDir;
+    }
+    currentDir = path.dirname(currentDir);
+  }
+  
+  return process.cwd();
+}
+
+const workspaceRoot = findWorkspaceRoot();
+const orchestratorPath = path.join(workspaceRoot, '.kiro/hsy-orchestrator/src/kiro-orchestrator.js');
+
+if (!fs.existsSync(orchestratorPath)) {
+  console.error('❌ HSY orchestrator not found.');
+  process.exit(1);
+}
+
+const { KiroOrchestrator } = require(orchestratorPath);
+const orchestrator = new KiroOrchestrator(workspaceRoot);
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+function question(prompt) {
+  return new Promise((resolve) => {
+    rl.question(prompt, resolve);
+  });
+}
+
+async function runAutoWorkflow() {
+  console.log('╔════════════════════════════════════════════════════════════╗');
+  console.log('║  HSY Auto - Autonomous Workflow Helper                    ║');
+  console.log('╚════════════════════════════════════════════════════════════╝\n');
+  
+  // Start orchestrator
+  await orchestrator.start();
+  
+  let running = true;
+  let currentHook = null;
+  
+  while (running) {
+    // Prepare next hook
+    console.log('\n' + '─'.repeat(60));
+    const result = await orchestrator.prepareNextHook();
+    
+    if (result.status === 'ready') {
+      currentHook = result.hook;
+      
+      console.log('\n📋 NEXT STEP:');
+      console.log('   1. Execute the hook in Kiro (see instructions above)');
+      console.log('   2. Wait for Kiro to complete the hook');
+      console.log('   3. Return here and confirm completion\n');
+      
+      const answer = await question('Hook executed? (yes/no/failed/quit): ');
+      
+      if (answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y') {
+        await orchestrator.markCompleted(currentHook);
+        console.log('\n✅ Hook marked as completed. Preparing next hook...\n');
+        currentHook = null;
+      } else if (answer.toLowerCase() === 'failed' || answer.toLowerCase() === 'f') {
+        const errorMsg = await question('Error message (optional): ');
+        await orchestrator.markFailed(currentHook, new Error(errorMsg || 'User reported failure'));
+        console.log('\n❌ Hook marked as failed. Preparing next hook...\n');
+        currentHook = null;
+      } else if (answer.toLowerCase() === 'quit' || answer.toLowerCase() === 'q') {
+        running = false;
+        console.log('\n👋 Exiting auto workflow. Hook is still pending.');
+        console.log(`   Use "hsy complete ${currentHook}" when ready.\n`);
+      } else {
+        console.log('\n⏸️  Waiting... (answer "yes" when hook completes, or "quit" to exit)');
+      }
+      
+    } else if (result.status === 'no_hook') {
+      console.log('\n✅ Workflow complete! No more hooks to execute.\n');
+      running = false;
+    } else {
+      console.log(`\n⚠️  ${result.message}\n`);
+      running = false;
+    }
+  }
+  
+  rl.close();
+  await orchestrator.stop();
+  console.log('✅ HSY Auto workflow finished\n');
+}
+
+// Handle graceful shutdown
+process.on('SIGINT', () => {
+  console.log('\n\n👋 Interrupted. Shutting down...');
+  rl.close();
+  process.exit(0);
+});
+
+runAutoWorkflow().catch(error => {
+  console.error(`\n❌ Error: ${error.message}`);
+  rl.close();
+  process.exit(1);
+});

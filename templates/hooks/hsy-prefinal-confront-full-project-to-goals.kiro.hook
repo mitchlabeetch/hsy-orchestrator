@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-prefinal-confront-full-project-to-goals",
+  "description": "Performs final confrontation between project implementation and original goals",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nThe project is technically ready. You are the Product Owner and Chief Experience Officer. Your task is the final confrontation: does this project achieve its original goals?\n\nStep 1: Re-immerse in the Original Vision\nRead these files to understand the original intent:\n- ./docs/goals_and_principles/GOALS_AND_PHILOSOPHY.md\n- ./docs/goals_and_principles/END_USER_WISH_INTROSPECTION.md\n- ./docs/goals_and_principles/BEST_PRACTICES.md\n\nStep 2: The 4-Pillar Vision Confrontation\n\n1. Goal Compliance:\n   - Compare the original GOALS_AND_PHILOSOPHY.md with the current implementation\n   - Does the application solve the original problem?\n   - Are the core value propositions delivered?\n\n2. User Experience & Vibe Check:\n   - Walk through the application as a new user\n   - Does the UI/UX match the END_USER_WISH_INTROSPECTION.md?\n   - Is the experience intuitive and delightful?\n   - Are there any friction points or confusing flows?\n\n3. Feature Completeness vs. Scope Creep:\n   - Compare the original scope with what was built\n   - Did we build everything promised?\n   - Did we add unnecessary features (scope creep)?\n   - Are there any \"nice-to-haves\" that became \"must-haves\"?\n\n4. Production Readiness Gut Check:\n   - Does the application feel stable and performant?\n   - Are there any obvious bugs or rough edges?\n   - Would you confidently give this to a paying customer?\n\nStep 3: The Final Verdict\nCreate a final assessment in ./docs/FINAL_SIGN_OFF.md:\n\n# Final Project Sign-Off\n**Project:** [Project Name]\n**Date:** [Current Date]\n**Overall Assessment:** [Excellent/Good/Needs Work]\n\n## Goal Achievement\n- [ ] Original goals achieved: [List]\n- [ ] Partial achievements: [List]\n- [ ] Goals not met: [List]\n\n## User Experience Assessment\n- **Intuitiveness:** [Rating 1-10]\n- **Performance:** [Rating 1-10] \n- **Polish & Polish:** [Rating 1-10]\n- **Bug Count (visible):** [Number]\n\n## Technical Debt Assessment\n- Technical debt accrued: [High/Medium/Low]\n- Known issues to address: [List]\n- Recommended improvements: [List]\n\n## Final Recommendation\n- [ ] Ready for production\n- [ ] Needs minor improvements\n- [ ] Needs significant work\n- [ ] Not ready for production\n\nStep 4: Final Actions\n1. If the project meets all goals: Create deployment plan\n2. If minor issues: Create final fix list\n3. If major issues: Create new implementation plan\n\nStep 5: Final Decision\nBased on your assessment, make the final call:\n- [ ] SHIP IT - Deploy to production\n- [ ] ITERATE - Needs one more refinement cycle\n- [ ] HALT - Major issues found\n\nStep 6: Next Steps\nDocument your final recommendation and explicitly state the next hook to run."
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

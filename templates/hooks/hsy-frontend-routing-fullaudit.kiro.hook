@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-frontend-routing-fullaudit",
+  "description": "Performs exhaustive audit of frontend routing layer including authentication, error handling, and performance",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nUI components are refined and tested. You are the Lead Frontend Architect. Your task is to perform an exhaustive audit of the frontend routing layer.\n\nCRITICAL RULE: Do not use grep or superficial search. Manually read every route definition, middleware, layout, and page component.\n\nStep 1: Understand Routing Context\nRead these files first:\n- ./docs/technical/FRONTEND.md (routing library details)\n- ./docs/goals_and_principles/END_USER_WISH_INTROSPECTION.md (user flows)\n- ./docs/technical/ARCHITECTURE.md (protected vs public areas)\n\nStep 2: 7-Pillar Routing Audit & Fix\n\n1. **Authentication & Role Guards**:\n   - Check every protected route has proper authentication\n   - Verify role-based access controls work\n   - Ensure unauthorized access redirects properly\n   - Fix: Implement or strengthen route guards/middleware\n\n2. **Error Boundaries & Fallbacks**:\n   - Check for 404 and 500 error pages\n   - Verify error boundaries wrap critical components\n   - Ensure graceful error handling\n   - Fix: Add missing error boundaries and fallback pages\n\n3. **UX During Transitions**:\n   - Check for loading states during navigation\n   - Verify smooth page transitions\n   - Ensure scroll position restoration\n   - Fix: Add loading indicators and transition animations\n\n4. **Performance & Code Splitting**:\n   - Check for lazy loading of heavy routes\n   - Verify proper code splitting\n   - Ensure optimal bundle sizes\n   - Fix: Implement lazy loading where needed\n\n5. **State & Data Fetching Sync**:\n   - Check data fetching aligns with route changes\n   - Verify proper caching strategies\n   - Ensure no duplicate API calls\n   - Fix: Sync data fetching with routing\n\n6. **URL Integrity & Deep Linking**:\n   - Check URL parameters are properly handled\n   - Verify deep linking works\n   - Ensure shareable URLs\n   - Fix: Improve URL parameter handling\n\n7. **SEO & Meta Management**:\n   - Check dynamic meta tags per route\n   - Verify proper document titles\n   - Ensure SEO best practices\n   - Fix: Implement dynamic meta management\n\nStep 3: Document Routing Architecture\nUpdate ./docs/technical/FRONTEND.md \"Routing\" section with:\n- Complete route tree (public/protected/admin)\n- Error boundary structure\n- Loading state strategy\n- Authentication flow\n\nStep 4: Next Step Routing\nIf major refactoring was needed, suggest: /hsy-postphase-bestpracticesaudit\nIf routing is now robust, suggest: /hsy-fullstack-infrastructure-refinement"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-frontend-ui-refinement",
+  "description": "Performs comprehensive UI/UX refinement for frontend components",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nThe core functionality is complete. You are the Lead UI/UX Engineer. Your task is to elevate the frontend to 'prod-ready vibe' quality.\n\nStep 1: Understand the Vibe\nRead these files to understand the desired user experience:\n- ./docs/goals_and_principles/END_USER_WISH_INTROSPECTION.md\n- ./docs/technical/LANGUAGE_AND_BRANDING.md\n- ./docs/technical/FRONTEND.md\n\nStep 2: Comprehensive Visual Audit\nManually review all frontend components, layouts, and styles. Look for:\n\n1. **Responsive Design Issues**:\n   - Components that break on mobile/tablet screens\n   - Hardcoded widths instead of responsive units\n   - Missing breakpoints or media queries\n\n2. **Design System Consistency**:\n   - Inconsistent colors, typography, spacing\n   - Rogue inline styles instead of design tokens\n   - Missing or inconsistent component variants\n\n3. **Interactive Polish**:\n   - Missing or poor hover/focus/active states\n   - Lack of smooth transitions or animations\n   - Unstyled loading or empty states\n\n4. **Accessibility (a11y)**:\n   - Missing ARIA labels or roles\n   - Poor color contrast\n   - Keyboard navigation issues\n\nStep 3: Execute Refinements\nFor each issue found, immediately fix it:\n1. **Responsive Fixes**: Convert fixed widths to responsive units, add missing breakpoints\n2. **Design System**: Replace hardcoded values with design tokens, ensure consistency\n3. **Interactions**: Add proper states, implement smooth transitions\n4. **Accessibility**: Add ARIA attributes, fix contrast ratios, ensure keyboard nav\n\nStep 4: Update Documentation\nUpdate ./docs/goals_and_principles/BEST_PRACTICES.md with any new UI/UX standards discovered.\n\nStep 5: Next Step Routing\nAfter completing UI refinements, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-frontend-ui-checks-and-addtests"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

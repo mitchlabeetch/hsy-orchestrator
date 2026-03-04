@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-prefinal-complete-audit-and-testing",
+  "description": "Performs ultimate technical pre-flight check with code freeze and security sweep",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nThe project is documented and CI/CD is ready. You are the Chief Release Officer. Your task is the ultimate technical pre-flight check.\n\nCRITICAL MANDATE - CODE FREEZE: No new features, UI tweaks, or logic changes. Only audit, fix, verify.\n\nStep 1: Clean Room Build Simulation\nFollow the exact instructions in README.md to simulate a fresh build:\n1. Clone repository (if possible in your environment)\n2. Install dependencies\n3. Set up environment variables from ENV_EXAMPLES.md\n4. Run build commands\n5. Start the application\n\nIf build fails at any step, FIX IT IMMEDIATELY. Update README.md if instructions are wrong.\n\nStep 2: Zero-Tolerance Security & Leak Sweep\nScan the ENTIRE repository (excluding .gitignore directories):\n1. **Hardcoded Secrets**: Search for API keys, passwords, JWT secrets in code\n2. **Debug Statements**: Find console.log, print(), debugger statements\n3. **Sensitive Data**: Check for PII or sensitive information in code\n4. **Staging URLs**: Look for staging/test URLs that should be dynamic\n\nFIX: Remove all found issues. Replace secrets with environment variables.\n\nStep 3: Global Test Suite Verification\n1. **Run All Tests**: Execute complete test suite (unit, integration, E2E)\n2. **Test Coverage**: Verify adequate test coverage\n3. **CI/CD Alignment**: Check CI/CD config matches actual test commands\n4. **Build Warnings**: Fix any build warnings or linter errors\n\nFIX: If tests fail or coverage is low, fix the underlying code. Do not suppress warnings.\n\nStep 4: Bundle & Performance Audit\n1. **Production Build**: Run production build (npm run build, docker build, etc.)\n2. **Bundle Analysis**: Check for large bundles or performance issues\n3. **Docker Images**: Verify Docker images are optimized\n4. **Environment Flags**: Confirm production flags are set correctly\n\nFIX: Apply final optimizations (tree-shaking, compression, etc.)\n\nStep 5: Final Documentation Sync\nUpdate ./docs/goals_and_principles/IMPORTANT_LEARNINGS.md with:\n- Any build-time quirks discovered\n- Performance optimizations applied\n- Security fixes made\n\nStep 6: Release Readiness Report\nCreate a summary report:\n\n# Release Readiness Report\n**Date:** [Current Date]\n**Build Simulation:** [Success/Failure with details]\n**Security Sweep:** [Issues found and fixed]\n**Test Coverage:** [Percentage and status]\n**Performance:** [Bundle sizes and optimizations]\n**Ready for Release:** [Yes/No with reasoning]\n\nStep 7: Next Step Routing\nAfter completing the audit, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-prefinal-confront-full-project-to-goals"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-ci-cd-overview-implementation-plan",
+  "description": "Sets up CI/CD pipeline for automated testing and deployment",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nInfrastructure and code are ready. You are the DevOps Engineer. Your task is to design and document a CI/CD pipeline.\n\nStep 1: Understand the Tech Stack\nRead ./docs/technical/TECH_STACK.md and ./docs/technical/ARCHITECTURE.md to understand:\n- Deployment targets (Vercel, AWS, etc.)\n- Testing frameworks in use\n- Build tools and processes\n\nStep 2: Design CI/CD Pipeline\nDesign a CI/CD pipeline that includes:\n\n1. **Continuous Integration (CI)**:\n   - Automated testing on every PR\n   - Linting and code quality checks\n   - Security scanning\n   - Test coverage reporting\n\n2. **Continuous Deployment (CD)**:\n   - Automated testing on main branch\n   - Automated deployment to staging\n   - Production deployment (manual or automated)\n\nStep 3: Create Pipeline Configuration\nCreate the necessary configuration files:\n\n1. **CI Configuration** (e.g., .github/workflows/ci.yml):\n   - On PR: Run tests, linting, security scans\n   - On main branch: Run full test suite\n   - On release tag: Deploy to staging/production\n\n2. **Deployment Configuration**:\n   - Environment-specific configurations\n   - Secret management\n   - Rollback procedures\n\nStep 4: Security & Best Practices\n- Secret management (GitHub Secrets, Vault, etc.)\n- Environment variable management\n- Access control and permissions\n\nStep 5: Documentation\nCreate a CI/CD documentation file (DEPLOYMENT.md) with:\n- How to set up the CI/CD pipeline\n- Environment setup instructions\n- Troubleshooting guide\n- Rollback procedures\n\nStep 6: Next Steps\nAfter CI/CD setup, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-prefinal-complete-audit-and-testing"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

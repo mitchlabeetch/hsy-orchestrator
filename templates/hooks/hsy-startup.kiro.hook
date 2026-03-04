@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0",
+  "enabled": true,
+  "name": "/hsy-startup",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nA new project is being initialized via the HookSystem (/hsy) framework. You are the core intelligence of this prod-ready vibe coding framework. Your first and most critical task is to establish the source of truth. You must not write any application code during this step.\n\nStep 1: Workspace Scaffolding\nCheck the workspace. You must create two main directories at the root: ./docs/technical/ and ./docs/goals_and_principles/.\n\nStep 2: Populating ./docs/goals_and_principles/\nBased on my initial prompt, draft the following files. If my initial prompt lacks sufficient detail to make these highly specific and actionable, YOU MUST PAUSE AND ASK ME (the user) for clarification before finalizing them. Do not hallucinate core business logic.\nBEST_PRACTICES.md: Define the coding standards (DRY, SOLID, accessibility, specific framework rules).\nIMPORTANT_LEARNINGS.md: Initialize with a header but leave the content empty. This is your dynamic memory.\nDO_NOT_DO.md: Explicit anti-patterns for this specific project and stack.\nPITFALLS_AND_ADVICE.md: Initialize with common pitfalls for the chosen stack.\nGOALS_AND_PHILOSOPHY.md: The core business logic, primary objective of the app, and definition of success.\nEND_USER_WISH_INTROSPECTION.md: Target audience, user personas, and desired UX/UI vibe.\n\nStep 3: Populating ./docs/technical/\nBased on the project brief, define the following files with extreme technical precision. Again, iterate with me if you need database choices, styling framework preferences, or specific API keys/services confirmed.\nTECH_STACK.md LANGUAGE_AND_BRANDING.md\nAPIs.md\nEXTERNAL_SERVICES.md\nVARIABLES.md\nFRONTEND.md\nBACKEND.md\nARCHITECTURE.md\nDATA_TABLES.md\nENV_EXAMPLES.md\n\nStep 4: Cross-Validation\nReview all newly created files. Ensure there are no contradictory statements (e.g., TECH_STACK.md listing PostgreSQL while DATA_TABLES.md assumes MongoDB). Ensure all technical choices align perfectly with GOALS_AND_PHILOSOPHY.md.\n\nNext Step Routing:\nOnce every single file is created, fully populated (or initialized correctly), and verified, output a concise summary of the initialized workspace. Then, explicitly end your response by suggesting the exact next hook: /hsy-plan-setup."
+  },
+  "workspaceFolderName": "cleanstart",
+  "shortName": "hsy-startup",
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

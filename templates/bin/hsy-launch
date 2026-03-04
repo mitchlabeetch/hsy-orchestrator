@@ -1,0 +1,401 @@
+#!/usr/bin/env node
+
+/**
+ * HSY Launch - Single command to start everything
+ * 
+ * Comprehensive launcher with self-tests, fallbacks, and TUI
+ */
+
+const fs = require('fs');
+const path = require('path');
+const { spawn } = require('child_process');
+
+// Colors for output
+const colors = {
+  reset: '\x1b[0m',
+  bright: '\x1b[1m',
+  red: '\x1b[31m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m',
+  magenta: '\x1b[35m',
+  cyan: '\x1b[36m',
+  white: '\x1b[37m'
+};
+
+function log(message, color = 'white') {
+  console.log(`${colors[color]}${message}${colors.reset}`);
+}
+
+function logSuccess(message) {
+  log(`✅ ${message}`, 'green');
+}
+
+function logError(message) {
+  log(`❌ ${message}`, 'red');
+}
+
+function logWarn(message) {
+  log(`⚠️  ${message}`, 'yellow');
+}
+
+function logInfo(message) {
+  log(`ℹ️  ${message}`, 'cyan');
+}
+
+// Find workspace root
+function findWorkspaceRoot() {
+  let currentDir = process.cwd();
+  
+  while (currentDir !== '/') {
+    if (fs.existsSync(path.join(currentDir, '.kiro'))) {
+      return currentDir;
+    }
+    currentDir = path.dirname(currentDir);
+  }
+  
+  return process.cwd();
+}
+
+const workspaceRoot = findWorkspaceRoot();
+
+// ============================================================================
+// SELF-TESTS
+// ============================================================================
+
+async function runSelfTests() {
+  log('\n╔════════════════════════════════════════════════════════════╗', 'cyan');
+  log('║  HSY Self-Test Suite                                      ║', 'cyan');
+  log('╚════════════════════════════════════════════════════════════╝\n', 'cyan');
+  
+  let passed = 0;
+  let failed = 0;
+  
+  // Test 1: Check .kiro directory
+  logInfo('Test 1: Checking .kiro directory...');
+  const kiroDir = path.join(workspaceRoot, '.kiro');
+  if (fs.existsSync(kiroDir)) {
+    logSuccess('.kiro directory exists');
+    passed++;
+  } else {
+    logError('.kiro directory not found');
+    failed++;
+  }
+  
+  // Test 2: Check orchestrator directory
+  logInfo('Test 2: Checking orchestrator installation...');
+  const orchestratorDir = path.join(workspaceRoot, '.kiro/hsy-orchestrator');
+  if (fs.existsSync(orchestratorDir)) {
+    logSuccess('Orchestrator directory exists');
+    passed++;
+  } else {
+    logError('Orchestrator directory not found');
+    failed++;
+  }
+  
+  // Test 3: Check orchestrator source
+  logInfo('Test 3: Checking orchestrator source files...');
+  const orchestratorSrc = path.join(orchestratorDir, 'src/kiro-orchestrator.js');
+  if (fs.existsSync(orchestratorSrc)) {
+    logSuccess('Orchestrator source file exists');
+    passed++;
+  } else {
+    logError('Orchestrator source file not found');
+    failed++;
+  }
+  
+  // Test 4: Check TUI source
+  logInfo('Test 4: Checking TUI source files...');
+  const tuiSrc = path.join(orchestratorDir, 'src/tui-v3-complete.js');
+  if (fs.existsSync(tuiSrc)) {
+    logSuccess('TUI v3 source file exists');
+    passed++;
+  } else {
+    logError('TUI v3 source file not found');
+    failed++;
+  }
+  
+  // Test 5: Check hooks directory
+  logInfo('Test 5: Checking hooks directory...');
+  const hooksDir = path.join(workspaceRoot, '.kiro/hooks');
+  if (fs.existsSync(hooksDir)) {
+    const hookFiles = fs.readdirSync(hooksDir).filter(f => f.endsWith('.kiro.hook') && !f.includes('.backup'));
+    if (hookFiles.length > 0) {
+      logSuccess(`Found ${hookFiles.length} hook files`);
+      passed++;
+    } else {
+      logWarn('Hooks directory exists but no hooks found');
+      passed++;
+    }
+  } else {
+    logError('Hooks directory not found');
+    failed++;
+  }
+  
+  // Test 6: Check state directory
+  logInfo('Test 6: Checking state directory...');
+  const stateDir = path.join(orchestratorDir, 'state');
+  if (fs.existsSync(stateDir)) {
+    logSuccess('State directory exists');
+    passed++;
+  } else {
+    logWarn('State directory not found, will be created');
+    try {
+      fs.mkdirSync(stateDir, { recursive: true });
+      logSuccess('Created state directory');
+      passed++;
+    } catch (error) {
+      logError(`Failed to create state directory: ${error.message}`);
+      failed++;
+    }
+  }
+  
+  // Test 7: Check logs directory
+  logInfo('Test 7: Checking logs directory...');
+  const logsDir = path.join(orchestratorDir, 'logs');
+  if (fs.existsSync(logsDir)) {
+    logSuccess('Logs directory exists');
+    passed++;
+  } else {
+    logWarn('Logs directory not found, will be created');
+    try {
+      fs.mkdirSync(logsDir, { recursive: true });
+      logSuccess('Created logs directory');
+      passed++;
+    } catch (error) {
+      logError(`Failed to create logs directory: ${error.message}`);
+      failed++;
+    }
+  }
+  
+  // Test 8: Check Node.js modules
+  logInfo('Test 8: Checking Node.js dependencies...');
+  const nodeModules = path.join(orchestratorDir, 'node_modules');
+  if (fs.existsSync(nodeModules)) {
+    const requiredModules = ['blessed', 'blessed-contrib', 'chalk', 'figlet'];
+    let allFound = true;
+    
+    for (const mod of requiredModules) {
+      if (!fs.existsSync(path.join(nodeModules, mod))) {
+        logError(`Missing module: ${mod}`);
+        allFound = false;
+      }
+    }
+    
+    if (allFound) {
+      logSuccess('All required Node.js modules found');
+      passed++;
+    } else {
+      logError('Some Node.js modules are missing');
+      logInfo('Run: cd .kiro/hsy-orchestrator && npm install');
+      failed++;
+    }
+  } else {
+    logError('node_modules not found');
+    logInfo('Run: cd .kiro/hsy-orchestrator && npm install');
+    failed++;
+  }
+  
+  // Test 9: Check configuration
+  logInfo('Test 9: Checking configuration...');
+  const configFile = path.join(orchestratorDir, 'config.json');
+  if (fs.existsSync(configFile)) {
+    try {
+      const config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
+      if (config.orchestrator && config.paths) {
+        logSuccess('Configuration file is valid');
+        passed++;
+      } else {
+        logWarn('Configuration file exists but may be incomplete');
+        passed++;
+      }
+    } catch (error) {
+      logError(`Configuration file is invalid: ${error.message}`);
+      failed++;
+    }
+  } else {
+    logWarn('Configuration file not found, will use defaults');
+    passed++;
+  }
+  
+  // Test 10: Check write permissions
+  logInfo('Test 10: Checking write permissions...');
+  try {
+    const testFile = path.join(stateDir, '.write-test');
+    fs.writeFileSync(testFile, 'test');
+    fs.unlinkSync(testFile);
+    logSuccess('Write permissions OK');
+    passed++;
+  } catch (error) {
+    logError(`No write permissions: ${error.message}`);
+    failed++;
+  }
+  
+  // Summary
+  log('\n' + '─'.repeat(60), 'white');
+  log(`\nTests Passed: ${passed}/${passed + failed}`, passed === passed + failed ? 'green' : 'yellow');
+  
+  if (failed > 0) {
+    log(`Tests Failed: ${failed}`, 'red');
+    log('\n⚠️  Some tests failed. The system may not work correctly.', 'yellow');
+    log('Please fix the issues above before continuing.\n', 'yellow');
+    return false;
+  } else {
+    logSuccess('\n✅ All tests passed! System is ready.\n');
+    return true;
+  }
+}
+
+// ============================================================================
+// LAUNCH MODES
+// ============================================================================
+
+async function launchTUI() {
+  log('\n╔════════════════════════════════════════════════════════════╗', 'cyan');
+  log('║  Launching HSY TUI v3.0...                                 ║', 'cyan');
+  log('╚════════════════════════════════════════════════════════════╝\n', 'cyan');
+  
+  // Try v3 first, fallback to v2, then CLI
+  const tuiV3Path = path.join(workspaceRoot, '.kiro/hsy-orchestrator/src/tui-v3-complete.js');
+  const tuiV2Path = path.join(workspaceRoot, '.kiro/hsy-orchestrator/src/tui.js');
+  
+  let tuiPath = tuiV3Path;
+  let version = 'v3.0';
+  
+  if (!fs.existsSync(tuiV3Path)) {
+    logWarn('TUI v3 not found, trying v2...');
+    if (fs.existsSync(tuiV2Path)) {
+      tuiPath = tuiV2Path;
+      version = 'v2.0';
+    } else {
+      logError('No TUI found. Falling back to CLI mode.');
+      return launchCLI();
+    }
+  }
+  
+  logInfo(`Launching TUI ${version}...`);
+  
+  try {
+    // Launch TUI
+    const tui = spawn('node', [tuiPath], {
+      stdio: 'inherit',
+      cwd: workspaceRoot
+    });
+    
+    tui.on('error', (error) => {
+      logError(`TUI failed to start: ${error.message}`);
+      logInfo('Falling back to CLI mode...');
+      launchCLI();
+    });
+    
+    tui.on('exit', (code) => {
+      if (code !== 0 && code !== null) {
+        logError(`TUI exited with code ${code}`);
+      }
+    });
+    
+  } catch (error) {
+    logError(`Failed to launch TUI: ${error.message}`);
+    logInfo('Falling back to CLI mode...');
+    launchCLI();
+  }
+}
+
+async function launchCLI() {
+  log('\n╔════════════════════════════════════════════════════════════╗', 'cyan');
+  log('║  Launching HSY CLI Mode...                                 ║', 'cyan');
+  log('╚════════════════════════════════════════════════════════════╝\n', 'cyan');
+  
+  const cliPath = path.join(workspaceRoot, '.kiro/hsy-auto');
+  
+  if (!fs.existsSync(cliPath)) {
+    logError('CLI not found. Please reinstall HSY.');
+    process.exit(1);
+  }
+  
+  try {
+    const cli = spawn('node', [cliPath], {
+      stdio: 'inherit',
+      cwd: workspaceRoot
+    });
+    
+    cli.on('error', (error) => {
+      logError(`CLI failed to start: ${error.message}`);
+      process.exit(1);
+    });
+    
+  } catch (error) {
+    logError(`Failed to launch CLI: ${error.message}`);
+    process.exit(1);
+  }
+}
+
+// ============================================================================
+// MAIN
+// ============================================================================
+
+async function main() {
+  const args = process.argv.slice(2);
+  const command = args[0];
+  
+  // ASCII banner
+  log('\n╔════════════════════════════════════════════════════════════╗', 'cyan');
+  log('║                                                            ║', 'cyan');
+  log('║     ╦ ╦╔═╗╦ ╦  ╔═╗╦═╗╔═╗╦ ╦╔═╗╔═╗╔╦╗╦═╗╔═╗╔╦╗╔═╗╦═╗      ║', 'cyan');
+  log('║     ╠═╣╚═╗╚╦╝  ║ ║╠╦╝║  ╠═╣║╣ ╚═╗ ║ ╠╦╝╠═╣ ║ ║ ║╠╦╝      ║', 'cyan');
+  log('║     ╩ ╩╚═╝ ╩   ╚═╝╩╚═╚═╝╩ ╩╚═╝╚═╝ ╩ ╩╚═╩ ╩ ╩ ╚═╝╩╚═      ║', 'cyan');
+  log('║                                                            ║', 'cyan');
+  log('║            Autonomous HookSystem - Production v1.0.0      ║', 'cyan');
+  log('║                                                            ║', 'cyan');
+  log('╚════════════════════════════════════════════════════════════╝\n', 'cyan');
+  
+  // Handle commands
+  if (command === 'test' || command === '--test' || command === '-t') {
+    const passed = await runSelfTests();
+    process.exit(passed ? 0 : 1);
+  } else if (command === 'cli' || command === '--cli') {
+    await launchCLI();
+  } else if (command === 'help' || command === '--help' || command === '-h') {
+    log('Usage: hsy-launch [command]\n', 'white');
+    log('Commands:', 'white');
+    log('  (none)    Launch TUI mode (default)', 'white');
+    log('  test      Run self-tests', 'white');
+    log('  cli       Launch CLI mode', 'white');
+    log('  help      Show this help\n', 'white');
+    log('Examples:', 'white');
+    log('  hsy-launch           # Launch TUI', 'white');
+    log('  hsy-launch test      # Run tests', 'white');
+    log('  hsy-launch cli       # Use CLI mode\n', 'white');
+    process.exit(0);
+  } else {
+    // Default: run tests then launch TUI
+    logInfo('Running self-tests...');
+    const passed = await runSelfTests();
+    
+    if (!passed) {
+      logError('Self-tests failed. Please fix issues before launching.');
+      process.exit(1);
+    }
+    
+    await launchTUI();
+  }
+}
+
+// Handle errors
+process.on('uncaughtException', (error) => {
+  logError(`Fatal error: ${error.message}`);
+  console.error(error.stack);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (error) => {
+  logError(`Unhandled rejection: ${error.message}`);
+  console.error(error.stack);
+});
+
+// Run
+main().catch(error => {
+  logError(`Failed to launch: ${error.message}`);
+  console.error(error.stack);
+  process.exit(1);
+});

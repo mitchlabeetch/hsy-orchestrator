@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-prerun-auditdoublecheck-doc-update",
+  "description": "Pre-run synchronization to verify previous tasks were audited and update global documentation",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nA new coding cycle is about to begin, but you must first perform a strict pre-run synchronization. You are the guardian of the framework's context window. Do not write application code during this step.\n\nStep 1: Verify the Ongoing Plan State\nOpen the current IMPLEMENTATION_PLAN_<number>_ongoing.md file.\nScan the completed items. Ensure that no item is left in a \"limbo\" state (e.g., marked [x] Ran but lacking [x] Audited, or possessing an unresolved [FIXING_x.x_PLAN]).\nIf you find unresolved audits or pending fixes: HALT. Inform me immediately and suggest running /hsy-postaudit-apply-fixes-continue-phase.\n\nStep 2: Sync Global Documentation\nIf the plan is clean and ready for the next item, check the <LEARNINGS>, <OTHER>, and [AUDIT_x.x_RESULTS] sections of the most recently completed items.\nDid we introduce a new library? Did we discover a new strict rule for the UI? Did we change an API endpoint?\nIf YES: You must proactively update ./docs/technical/ (e.g., TECH_STACK.md, APIs.md) and ./docs/goals_and_principles/ (e.g., IMPORTANT_LEARNINGS.md, BEST_PRACTICES.md) to reflect this new reality.\nIf NO: Proceed to the next step.\n\nStep 3: State Readiness Validation\nConfirm that the global documentation perfectly matches the current state of the codebase and that the _ongoing plan is ready for the next task.\n\nNext Step Routing:\nOutput a brief summary confirming that the pre-run check is clean and docs are synced. Then, explicitly end your response by suggesting the workhorse hook: /hsy-next-work-run."
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

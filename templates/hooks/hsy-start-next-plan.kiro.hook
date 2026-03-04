@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-start-next-plan",
+  "description": "Transitions the next non-started plan to ongoing, executes first coding work, and documents for audit",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nA new coding phase is beginning via the HookSystem framework. Your task is to transition the next scheduled plan into active execution, write the necessary code, and perfectly document your output for the audit phase.\n\nStep 1: Locate and Transition the Plan\nScan the ./docs/planning/ directory. Find the lowest numbered file carrying the _nonstarted tag (e.g., IMPLEMENTATION_PLAN_1_nonstarted.md).\nImmediately rename this file to replace _nonstarted with _ongoing (e.g., IMPLEMENTATION_PLAN_1_ongoing.md). This file is now your active directive.\n\nStep 2: Load Core Context\nBefore writing any code, you must silently refresh your memory on the project's strict constraints. Read ./docs/goals_and_principles/BEST_PRACTICES.md and ./docs/technical/ARCHITECTURE.md. You must adhere strictly to these rules.\n\nStep 3: Execute the First Item(s)\nOpen the newly renamed _ongoing plan. Locate the first item (or logical group of small items) that has its status marked as [ ] Unticked.\nRead its [ITEM_x.x_DESCRIPTION] and [ITEM_x.x_GOALS].\nWrite the actual application code to fulfill this task. Implement the UI, logic, routing, or infrastructure exactly as required. Ensure your code is production-ready.\n\nStep 4: Update the Implementation Plan (CRITICAL)\nYou must now update the _ongoing markdown file to reflect your work, strictly respecting the exact formatting for the upcoming Audit hook.\nChange the Item's status from [ ] Unticked to [x] Ran. Do NOT tick \"Audited\".\nFill the [CREATED_x.x_FILES] and [EDITED_x.x_FILES] placeholders with the exact relative paths of the files you just touched.\nFill the [COMPLETION_x.x_NOTES] section. You MUST use these exact sub-headers:\n<CONFIDENCE>: Rate how sure you are that this item is fully prod-ready (e.g., High, Medium, Low) and briefly state why.\n<DOUBTS>: List any blockers, potential edge cases, or elements you want the Auditor to look closely at. Be radically honest. If none, write \"None\".\n<LEARNINGS>: Note any stack-specific quirks or technical decisions made during this run.\n<OTHER>: Any other context for the Auditor.\n\nNext Step Routing:\nVerify that the code is written, the file is renamed to _ongoing, and the placeholders are filled correctly. Output a brief summary of what you built. Then, explicitly suggest the next hook so the framework can verify your work: run command /hsy-audit-last-run."
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

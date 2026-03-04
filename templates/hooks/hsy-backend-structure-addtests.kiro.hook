@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-backend-structure-addtests",
+  "description": "Adds comprehensive unit, integration, and security tests for backend",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nBackend static analysis is complete. You are the Backend QA Engineer. Your task is to add comprehensive tests.\n\nStep 1: Understand What to Test\nRead these files:\n- ./docs/technical/APIs.md (API contracts)\n- ./docs/technical/DATA_TABLES.md (data models)\n- ./docs/technical/BACKEND.md (testing framework)\n\nStep 2: 3-Tier Testing Strategy\n\n1. **Unit Tests** (Core Logic):\n   - Test service classes and utilities\n   - Test business logic in isolation\n   - Mock database calls\n   - Cover edge cases and null inputs\n\n2. **Integration Tests** (API Layer):\n   - Test HTTP endpoints\n   - Verify request/response contracts\n   - Test database interactions\n   - Use test database with rollbacks\n\n3. **Negative & Security Tests** (Shield):\n   - Test invalid inputs return 400\n   - Test unauthorized access returns 401/403\n   - Test rate limiting works\n   - Test SQL injection prevention\n\nStep 3: Write and Execute Tests\n\n1. **Create Test Files**:\n   - Unit tests for services/utilities\n   - Integration tests for endpoints\n   - Security tests for authentication\n\n2. **Test Implementation**:\n   - Follow AAA pattern (Arrange, Act, Assert)\n   - Use clear test names\n   - Ensure tests are independent\n\n3. **Run Test Suite**:\n   - Execute all tests\n   - Fix any failing tests\n   - Refactor code if needed for testability\n\nStep 4: Update Documentation\nUpdate ./docs/technical/BACKEND.md with:\n- Testing strategy\n- How to run tests\n- Test coverage achieved\n\nStep 5: Next Step Routing\nIf major refactoring was needed, suggest: /hsy-postphase-bestpracticesaudit\nIf backend is now well-tested, suggest: /hsy-fullstack-infrastructure-refinement"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}

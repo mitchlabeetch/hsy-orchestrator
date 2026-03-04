@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "name": "/hsy-userside-repo-documentation-refresh",
+  "description": "Creates comprehensive user-facing repository documentation",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "\n\n## Autonomous Execution Context\n\nYou are being executed by the HSY Autonomous Orchestrator. Please:\n\n1. **Be decisive**: Make reasonable assumptions when information is incomplete\n2. **Provide structured output**: Use clear formatting for the orchestrator to parse\n3. **Include confidence ratings**: Rate your confidence in decisions (High/Medium/Low)\n4. **Note uncertainties**: Clearly indicate any areas needing human review\n5. **Suggest next steps**: Always suggest the most logical next hook\n\n**Autonomy Level**: Full (with human fallback)\n**Execution Mode**: Production\n**Safety Checks**: Enabled\n\nEngineering is complete. You are the Developer Advocate. Your task is to create world-class user documentation.\n\nStep 1: Understand the Project\nRead these files to understand what was built:\n- ./docs/goals_and_principles/GOALS_AND_PHILOSOPHY.md\n- ./docs/goals_and_principles/END_USER_WISH_INTROSPECTION.md\n- ./docs/technical/TECH_STACK.md\n- ./docs/technical/ARCHITECTURE.md\n- ./docs/technical/ENV_EXAMPLES.md\n\nStep 2: Create Root README.md\nCreate/overwrite README.md at project root with these sections:\n\n1. **Title & Badges**:\n   - Project name and brief tagline\n   - Build status, license, tech stack badges\n\n2. **Project Overview**:\n   - 2-3 paragraph summary from GOALS_AND_PHILOSOPHY.md\n   - Clear value proposition\n\n3. **Tech Stack**:\n   - Clean table or list of technologies\n   - Frontend, backend, database, infrastructure\n\n4. **Prerequisites**:\n   - What needs to be installed (Node, Docker, etc.)\n   - Version requirements\n\n5. **Local Setup & Installation**:\n   - Step-by-step setup instructions\n   - Copy-pasteable commands\n   - Reference ENV_EXAMPLES.md for environment variables\n\n6. **Running the Application**:\n   - Exact commands to start development\n   - Docker commands if applicable\n   - How to access the application\n\n7. **Testing**:\n   - How to run tests\n   - Testing framework information\n\n8. **Deployment**:\n   - Brief deployment instructions\n   - Link to more detailed docs if available\n\nStep 3: Create CONTRIBUTING.md\nCreate CONTRIBUTING.md with:\n\n1. **Welcome & Philosophy**:\n   - Brief welcome message\n   - Project philosophy\n\n2. **Development Setup**:\n   - How to set up development environment\n   - Link to README.md setup\n\n3. **Code Standards**:\n   - Reference ./docs/goals_and_principles/BEST_PRACTICES.md\n   - Key coding standards\n\n4. **Pull Request Process**:\n   - How to submit PRs\n   - What to include in PR descriptions\n\n5. **HookSystem Framework**:\n   - Brief explanation of the AI-assisted framework\n   - How to work with the ./docs/ structure\n\nStep 4: Verify No Secrets\nCheck README.md and CONTRIBUTING.md for:\n- No API keys or secrets\n- No sensitive information\n- Only public-facing information\n\nStep 5: Next Step Routing\nAfter creating documentation, Next Step Routing:\nAfter completing this task, explicitly suggest: /hsy-ci-cd-overview-implementation-plan"
+  },
+  "metadata": {
+    "autonomy": {
+      "version": "1.0.0",
+      "confidenceThreshold": 0.7,
+      "requiresHumanInput": false,
+      "estimatedDuration": "5m",
+      "resourceRequirements": {
+        "memory": "medium",
+        "cpu": "medium",
+        "model": "default"
+      },
+      "safetyChecks": [
+        "file-backup",
+        "dry-run-available",
+        "rollback-supported"
+      ]
+    }
+  }
+}
