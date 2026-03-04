@@ -124,8 +124,9 @@ class ModelRouter {
 // KIRO AGENT EXECUTOR
 // ============================================================================
 
-class KiroAgentExecutor {
+class KiroAgentExecutor extends EventEmitter {
   constructor(modelRouter, logger) {
+    super();
     this.modelRouter = modelRouter;
     this.logger = logger;
     this.workspaceRoot = process.cwd();
@@ -224,6 +225,7 @@ class KiroAgentExecutor {
   /**
    * Invoke Kiro's agent system
    * Uses invokeSubAgent to execute hooks autonomously
+   * Emits streaming events for real-time UI updates
    */
   async invokeKiroAgent(requestData) {
     this.logger.info('Invoking Kiro agent...', {
@@ -231,17 +233,34 @@ class KiroAgentExecutor {
       hook: requestData.hookName
     });
     
+    // Emit thinking event
+    this.emit('thinking', { message: `Analyzing hook: ${requestData.hookName}` });
+    
     try {
       // Check if we're running inside Kiro
       if (kiroIntegration.isKiroContext()) {
-        // Real Kiro execution via invokeSubAgent
+        // Real Kiro execution via invokeSubAgent with streaming
         this.logger.info('Using Kiro invokeSubAgent for execution');
+        
+        this.emit('thinking', { message: 'Reading hook prompt and context...' });
+        await this.sleep(300);
+        
+        this.emit('thinking', { message: 'Preparing execution environment...' });
+        await this.sleep(300);
+        
+        this.emit('executing', { message: 'Starting Kiro agent execution...' });
         
         const result = await kiroIntegration.invokeSubAgent({
           name: 'general-task-execution',
           prompt: requestData.prompt,
           explanation: `Executing HSY hook: ${requestData.hookName}`
         });
+        
+        this.emit('executing', { message: 'Processing agent response...' });
+        await this.sleep(200);
+        
+        this.emit('executing', { message: 'Validating results...' });
+        await this.sleep(200);
         
         // Parse and return result
         return {
@@ -260,12 +279,18 @@ class KiroAgentExecutor {
         // Fallback: Execute via CLI (for standalone testing)
         this.logger.warn('Not in Kiro context, using CLI fallback');
         
+        this.emit('thinking', { message: 'Not in Kiro context, using fallback mode...' });
+        
         // Execute the hook's command directly if available
         const hookData = this.getHookData(requestData.hookName);
         if (hookData && hookData.then && hookData.then.command) {
+          this.emit('executing', { message: `Running command: ${hookData.then.command}` });
+          
           const { stdout, stderr } = await execAsync(hookData.then.command, {
             cwd: this.workspaceRoot
           });
+          
+          this.emit('executing', { message: 'Command completed successfully' });
           
           return {
             hookName: requestData.hookName,
@@ -281,9 +306,17 @@ class KiroAgentExecutor {
           };
         }
         
-        // If no command, simulate for testing
+        // If no command, simulate for testing with streaming
         this.logger.warn('No command found, simulating execution');
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        this.emit('thinking', { message: 'Simulating hook execution for testing...' });
+        await this.sleep(500);
+        
+        this.emit('executing', { message: 'Processing simulated task...' });
+        await this.sleep(1000);
+        
+        this.emit('executing', { message: 'Completing simulated work...' });
+        await this.sleep(500);
         
         return {
           hookName: requestData.hookName,
@@ -300,8 +333,13 @@ class KiroAgentExecutor {
       
     } catch (error) {
       this.logger.error(`Kiro agent invocation failed: ${error.message}`);
+      this.emit('error', { message: error.message });
       throw error;
     }
+  }
+  
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
   
   /**

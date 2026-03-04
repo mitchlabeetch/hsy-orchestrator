@@ -106,12 +106,12 @@ async function runSelfTests() {
   
   // Test 4: Check TUI source
   logInfo('Test 4: Checking TUI source files...');
-  const tuiSrc = path.join(orchestratorDir, 'src/tui-v3-complete.js');
+  const tuiSrc = path.join(orchestratorDir, 'src/tui-v3-fixed.js');
   if (fs.existsSync(tuiSrc)) {
-    logSuccess('TUI v3 source file exists');
+    logSuccess('TUI v3 FIXED source file exists');
     passed++;
   } else {
-    logError('TUI v3 source file not found');
+    logError('TUI v3 FIXED source file not found');
     failed++;
   }
   
@@ -255,16 +255,21 @@ async function launchTUI() {
   log('║  Launching HSY TUI v3.0...                                 ║', 'cyan');
   log('╚════════════════════════════════════════════════════════════╝\n', 'cyan');
   
-  // Try v3 first, fallback to v2, then CLI
+  // Try v3-fixed first, fallback to v3-complete, then v2, then CLI
+  const tuiV3FixedPath = path.join(workspaceRoot, '.kiro/hsy-orchestrator/src/tui-v3-fixed.js');
   const tuiV3Path = path.join(workspaceRoot, '.kiro/hsy-orchestrator/src/tui-v3-complete.js');
   const tuiV2Path = path.join(workspaceRoot, '.kiro/hsy-orchestrator/src/tui.js');
   
-  let tuiPath = tuiV3Path;
-  let version = 'v3.0';
+  let tuiPath = tuiV3FixedPath;
+  let version = 'v3.0-FIXED';
   
-  if (!fs.existsSync(tuiV3Path)) {
-    logWarn('TUI v3 not found, trying v2...');
-    if (fs.existsSync(tuiV2Path)) {
+  if (!fs.existsSync(tuiV3FixedPath)) {
+    logWarn('TUI v3-FIXED not found, trying v3-complete...');
+    if (fs.existsSync(tuiV3Path)) {
+      tuiPath = tuiV3Path;
+      version = 'v3.0';
+    } else if (fs.existsSync(tuiV2Path)) {
+      logWarn('TUI v3 not found, trying v2...');
       tuiPath = tuiV2Path;
       version = 'v2.0';
     } else {

@@ -1,6 +1,6 @@
 {
   "name": "hsy-orchestrator",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Autonomous AI-powered orchestrator for systematic project development with Kiro integration",
   "main": "dist/index.js",
   "bin": {
